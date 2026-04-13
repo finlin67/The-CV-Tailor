@@ -20155,50 +20155,182 @@ var __async = (__this, __arguments, generator) => {
 
   /* Header */
   header {
-    background: var(--navy);
-    padding: 28px 48px;
+    background: linear-gradient(165deg, #1e4582 0%, var(--navy) 42%, var(--navy-dim) 100%);
+    padding: clamp(28px, 4vw, 42px) clamp(32px, 5vw, 56px);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 3px solid var(--gold);
+    border-bottom: 4px solid var(--gold);
+    box-shadow: 0 10px 40px rgba(11, 28, 58, 0.45);
+    position: relative;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.5), transparent);
   }
   header h1 {
     font-family: 'Inter', sans-serif;
-    font-size: 24px;
+    font-size: clamp(28px, 4.2vw, 40px);
     font-weight: 800;
     color: #fff;
-    letter-spacing: 0.02em;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.25);
   }
   header h1 span { color: var(--gold); }
   header p {
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    margin-top: 3px;
-    letter-spacing: 0.08em;
+    font-size: 13px;
+    color: rgba(255,255,255,0.82);
+    margin-top: 8px;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
+    font-weight: 600;
   }
   .header-right {
     display: flex;
     align-items: center;
     gap: 10px;
   }
-  .btn-help {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.35);
+  .app-shell {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 14px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 16px 18px 32px;
+    min-height: calc(100vh - 120px);
+  }
+  .help-legend-panel {
+    width: clamp(248px, 24vw, 288px);
+    flex-shrink: 0;
+    background: #142D54;
     color: #fff;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 4px 20px rgba(11, 30, 58, 0.12);
+    position: sticky;
+    top: 12px;
+    align-self: flex-start;
+    max-height: calc(100vh - 24px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+  }
+  .help-legend-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 14px 12px 16px;
+    min-height: 0;
+  }
+  .btn-help-in-legend {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+  .help-legend-panel .help-brand {
+    flex-shrink: 0;
+    padding-top: 4px;
+  }
+  .help-legend-panel .help-nav {
+    flex: 0 1 auto;
+    max-height: none;
+    overflow: visible;
+    padding-right: 2px;
+    scrollbar-color: rgba(255,255,255,0.25) transparent;
+  }
+  .wizard-column {
+    flex: 1;
+    min-width: 0;
+    max-width: 780px;
+    display: flex;
+    flex-direction: column;
+  }
+  .btn-help-main {
+    border: 1px solid rgba(27,58,107,0.35);
+    background: linear-gradient(180deg, #e8c96a 0%, var(--gold) 48%, #b8923a 100%);
+    color: var(--navy-dim);
     font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    border-radius: 20px;
-    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    border-radius: 999px;
+    padding: 10px 22px;
     cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
+    box-shadow: 0 3px 12px rgba(27,58,107,0.2);
+    transition: filter 0.2s ease, transform 0.15s ease;
   }
-  .btn-help:hover {
-    background: rgba(255,255,255,0.16);
-    border-color: rgba(255,255,255,0.5);
+  .btn-help-main:hover {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
   }
+  .help-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 20, 40, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 999;
+  }
+  .help-modal.visible { display: flex; }
+  .help-dialog-read {
+    width: min(720px, 100%);
+    max-height: min(86vh, 720px);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: #fff;
+    box-shadow: 0 24px 48px rgba(11, 30, 58, 0.28);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .help-legend-read-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 22px 24px 8px;
+    flex-shrink: 0;
+  }
+  .help-dialog-read .help-title {
+    margin: 0;
+    font-size: 22px;
+  }
+  .help-dialog-read .help-content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0 24px 16px;
+  }
+  .help-dialog-read .help-footer {
+    padding: 0 24px 18px;
+    margin-top: 0;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+    flex-shrink: 0;
+  }
+  .help-close {
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--text-mid);
+    border-radius: 8px;
+    width: 34px;
+    height: 34px;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .help-close:hover { border-color: var(--navy); color: var(--navy); }
   .header-badge {
     background: rgba(201,168,76,0.15);
     border: 1px solid rgba(201,168,76,0.4);
@@ -20979,12 +21111,13 @@ var __async = (__this, __arguments, generator) => {
   .char-count.over { color: var(--error); border-color: var(--error); background: #fdf0ee; }
   .li-output { min-height: 80px; max-height: 200px; }
   .wizard-main {
-    width: min(860px, 100%);
-    margin: 0 auto;
-    padding: clamp(24px, 4vw, 46px) clamp(16px, 4vw, 40px) clamp(30px, 5vw, 52px);
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: clamp(18px, 3vw, 36px) clamp(12px, 3vw, 28px) clamp(24px, 4vw, 44px);
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
   }
   .step-rail {
     display: flex;
@@ -21044,19 +21177,54 @@ var __async = (__this, __arguments, generator) => {
   }
   .step-header {
     width: 100%;
-    border: none;
-    background: transparent;
     padding: 16px 18px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    cursor: pointer;
-    text-align: left;
+    gap: 10px;
     border-left: 4px solid var(--navy);
     transition: all 0.2s ease;
   }
   .step-card.active .step-header { border-left-color: var(--gold); }
+  .step-header-toggle {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+    min-width: 0;
+  }
+  .step-header-toggle.step-header-left {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+  .step-header-toggle.step-header-right {
+    flex: 1;
+    justify-content: flex-end;
+    min-width: 0;
+  }
+  .step-help-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: var(--navy);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+  .step-help-btn:hover {
+    background: var(--navy-light);
+    transform: scale(1.05);
+  }
   .step-head-main {
     display: flex;
     align-items: baseline;
@@ -21170,36 +21338,6 @@ var __async = (__this, __arguments, generator) => {
     background: #f7f9fe;
   }
   .btn-next:disabled { background: #a8afba; cursor: not-allowed; }
-  .help-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(10, 20, 40, 0.55);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    z-index: 999;
-  }
-  .help-modal.visible { display: flex; }
-  .help-dialog {
-    width: min(780px, 100%);
-    height: min(86vh, 760px);
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    background: #fff;
-    box-shadow: 0 24px 48px rgba(11, 30, 58, 0.28);
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 220px 1fr;
-  }
-  .help-sidebar {
-    background: #142D54;
-    color: #fff;
-    padding: 18px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
   .help-brand {
     display: flex;
     align-items: center;
@@ -21255,38 +21393,12 @@ var __async = (__this, __arguments, generator) => {
   }
   .help-nav-title { font-size: 12px; font-weight: 600; }
   .help-nav-sub { font-size: 10px; color: rgba(255,255,255,0.7); line-height: 1.4; padding-left: 28px; }
-  .help-main {
-    background: #fff;
-    padding: 26px 32px 18px;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-  }
-  .help-main-head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 10px;
-  }
   .help-title {
     font-size: 24px;
     font-weight: 700;
     color: var(--navy);
     line-height: 1.2;
   }
-  .help-close {
-    border: 1px solid var(--border);
-    background: #fff;
-    color: var(--text-mid);
-    border-radius: 8px;
-    width: 32px;
-    height: 32px;
-    font-size: 18px;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-  .help-close:hover { border-color: var(--navy); color: var(--navy); }
   .help-content {
     flex: 1;
     min-height: 0;
@@ -21653,11 +21765,21 @@ var __async = (__this, __arguments, generator) => {
     color: var(--text-light);
   }
   .label-short { display: none; }
+  @media (max-width: 960px) {
+    .app-shell { flex-direction: column; max-width: 100%; gap: 12px; padding: 12px 14px 24px; }
+    .wizard-column { order: -1; max-width: none; }
+    .help-legend-panel {
+      width: 100%;
+      max-height: none;
+      position: relative;
+      top: 0;
+    }
+  }
   @media (max-width: 720px) {
     .wizard-main { padding: 18px 14px 28px; }
-    .step-header { padding: 14px; align-items: flex-start; flex-direction: column; }
+    .step-header { padding: 14px; flex-wrap: wrap; align-items: center; }
     .step-title { font-size: 17px; }
-    .step-head-meta { width: 100%; justify-content: space-between; }
+    .step-header-toggle.step-header-right { flex: 1 1 100%; justify-content: space-between; margin-top: 4px; }
     .step-summary { max-width: 72vw; font-size: 12px; }
     .step-body { padding: 0 14px; }
     .step-card.active .step-body { padding-bottom: 16px; }
@@ -21671,11 +21793,6 @@ var __async = (__this, __arguments, generator) => {
     .btn-back { width: 100%; text-align: center; }
     .header-right { width: 100%; justify-content: space-between; }
     header { flex-wrap: wrap; gap: 10px; padding: 22px 16px; }
-    .help-dialog { grid-template-columns: 1fr; height: 92vh; }
-    .help-sidebar { padding: 10px; }
-    .help-nav { max-height: 180px; }
-    .help-main { padding: 16px; }
-    .help-title { font-size: 20px; }
     .help-callouts { grid-template-columns: 1fr; }
     .score-grid { grid-template-columns: 1fr 1fr; }
     .ollama-setup-body { grid-template-columns: 1fr; }
@@ -21690,13 +21807,35 @@ var __async = (__this, __arguments, generator) => {
     <h1>Resume <span>Tailor</span></h1>
     <p>AI-assisted resume and outreach generator</p>
   </div>
-  <div class="header-right">
-    <button class="btn-help" onclick="openHelpModal()">How do I use this?</button>
-    <span class="header-badge">Powered by AI</span>
-  </div>
+    <div class="header-right">
+      <span class="header-badge">Powered by AI</span>
+    </div>
 </header>
 
-<main class="wizard-main">
+<div class="app-shell">
+  <aside class="help-legend-panel" id="helpLegendPanel" aria-label="Onboarding guide">
+    <div class="help-legend-inner">
+      <button type="button" class="btn-help-main btn-help-in-legend" onclick="openHelpModal('getting-started')">How does this work?</button>
+      <div class="help-brand">
+        <span class="help-brand-icon" aria-hidden="true">✨</span>
+        <div class="help-brand-text">
+          <strong>Resume Tailor</strong>
+          <span>Onboarding Guide</span>
+        </div>
+      </div>
+      <div class="help-nav" id="helpNav">
+        <button type="button" class="help-nav-item active" data-help-section="getting-started" onclick="openHelpModal('getting-started')"><div class="help-nav-top"><span class="help-nav-emoji">🚀</span><span class="help-nav-title">Getting Started</span></div><div class="help-nav-sub">What this tool does and how to begin</div></button>
+        <button type="button" class="help-nav-item" data-help-section="api-key" onclick="openHelpModal('api-key')"><div class="help-nav-top"><span class="help-nav-emoji">🔑</span><span class="help-nav-title">Your API Key</span></div><div class="help-nav-sub">Which AI to use and how to get a key</div></button>
+        <button type="button" class="help-nav-item" data-help-section="fit-score" onclick="openHelpModal('fit-score')"><div class="help-nav-top"><span class="help-nav-emoji">🎯</span><span class="help-nav-title">The Fit Score</span></div><div class="help-nav-sub">How scoring works and what it means</div></button>
+        <button type="button" class="help-nav-item" data-help-section="resume" onclick="openHelpModal('resume')"><div class="help-nav-top"><span class="help-nav-emoji">📄</span><span class="help-nav-title">Your Resume</span></div><div class="help-nav-sub">Getting the best output from your base resume</div></button>
+        <button type="button" class="help-nav-item" data-help-section="comms" onclick="openHelpModal('comms')"><div class="help-nav-top"><span class="help-nav-emoji">💼</span><span class="help-nav-title">The Comms Center</span></div><div class="help-nav-sub">Resume, cover letter, LinkedIn outreach</div></button>
+        <button type="button" class="help-nav-item" data-help-section="reach-out" onclick="openHelpModal('reach-out')"><div class="help-nav-top"><span class="help-nav-emoji">🔍</span><span class="help-nav-title">Who to Reach Out To</span></div><div class="help-nav-sub">Finding the right people at the company</div></button>
+        <button type="button" class="help-nav-item" data-help-section="pro-tips" onclick="openHelpModal('pro-tips')"><div class="help-nav-top"><span class="help-nav-emoji">💡</span><span class="help-nav-title">Pro Tips</span></div><div class="help-nav-sub">Getting the most out of every application</div></button>
+      </div>
+    </div>
+  </aside>
+  <div class="wizard-column">
+    <main class="wizard-main">
   <div class="step-rail" id="stepRail">
     <button class="step-rail-item active" data-step="1" onclick="goToStep(1)"><span class="check">✓</span><span class="label-full">1. Your Keys</span><span class="label-short">1. Keys</span></button>
     <div class="step-line"></div>
@@ -21710,10 +21849,15 @@ var __async = (__this, __arguments, generator) => {
   </div>
 
   <section class="step-card active" id="step1Card" data-step-card="1">
-    <button class="step-header" type="button" onclick="toggleStep(1)">
-      <div class="step-head-main"><span class="step-num">1</span><span class="step-title">Your Secret Identity Key</span></div>
-      <div class="step-head-meta"><span class="step-summary" id="step1Summary"></span><span class="step-status not-started" id="step1Status">Not Started</span><span class="step-chevron">▾</span></div>
-    </button>
+    <div class="step-header">
+      <button type="button" class="step-header-toggle step-header-left" onclick="toggleStep(1)">
+        <span class="step-num">1</span><span class="step-title">Your Secret Identity Key</span>
+      </button>
+      <button type="button" class="step-help-btn" onclick="openHelpModalForStep(1)" aria-label="Help for Step 1">?</button>
+      <button type="button" class="step-header-toggle step-header-right" onclick="toggleStep(1)">
+        <span class="step-summary" id="step1Summary"></span><span class="step-status not-started" id="step1Status">Not Started</span><span class="step-chevron">▾</span>
+      </button>
+    </div>
     <div class="step-body">
     <h2 class="step-headline">Step 1 — Your Secret Identity Key</h2>
     <p class="step-sub">This key unlocks the AI provider you picked. It stays in your browser session and is only used for your own requests.</p>
@@ -21759,10 +21903,15 @@ var __async = (__this, __arguments, generator) => {
   </section>
 
   <section class="step-card" id="step2Card" data-step-card="2">
-    <button class="step-header" type="button" onclick="toggleStep(2)">
-      <div class="step-head-main"><span class="step-num">2</span><span class="step-title">What is the Job?</span></div>
-      <div class="step-head-meta"><span class="step-summary" id="step2Summary"></span><span class="step-status not-started" id="step2Status">Not Started</span><span class="step-chevron">▾</span></div>
-    </button>
+    <div class="step-header">
+      <button type="button" class="step-header-toggle step-header-left" onclick="toggleStep(2)">
+        <span class="step-num">2</span><span class="step-title">What is the Job?</span>
+      </button>
+      <button type="button" class="step-help-btn" onclick="openHelpModalForStep(2)" aria-label="Help for Step 2">?</button>
+      <button type="button" class="step-header-toggle step-header-right" onclick="toggleStep(2)">
+        <span class="step-summary" id="step2Summary"></span><span class="step-status not-started" id="step2Status">Not Started</span><span class="step-chevron">▾</span>
+      </button>
+    </div>
     <div class="step-body">
     <h2 class="step-headline">Step 2 — What's the Job?</h2>
     <p class="step-sub">Drop in the role details. You can paste manually or pull from a job URL first.</p>
@@ -21803,10 +21952,15 @@ var __async = (__this, __arguments, generator) => {
   </section>
 
   <section class="step-card" id="step3Card" data-step-card="3">
-    <button class="step-header" type="button" onclick="toggleStep(3)">
-      <div class="step-head-main"><span class="step-num">3</span><span class="step-title">Your Resume</span></div>
-      <div class="step-head-meta"><span class="step-summary" id="step3Summary"></span><span class="step-status not-started" id="step3Status">Not Started</span><span class="step-chevron">▾</span></div>
-    </button>
+    <div class="step-header">
+      <button type="button" class="step-header-toggle step-header-left" onclick="toggleStep(3)">
+        <span class="step-num">3</span><span class="step-title">Your Resume</span>
+      </button>
+      <button type="button" class="step-help-btn" onclick="openHelpModalForStep(3)" aria-label="Help for Step 3">?</button>
+      <button type="button" class="step-header-toggle step-header-right" onclick="toggleStep(3)">
+        <span class="step-summary" id="step3Summary"></span><span class="step-status not-started" id="step3Status">Not Started</span><span class="step-chevron">▾</span>
+      </button>
+    </div>
     <div class="step-body">
     <h2 class="step-headline">Step 3 — Your Resume vs. This Role</h2>
     <p class="step-sub">This is your master resume. Tweak anything before scoring — edits here are temporary and will not overwrite your saved profile.</p>
@@ -21829,10 +21983,15 @@ var __async = (__this, __arguments, generator) => {
   </section>
 
   <section class="step-card" id="step4Card" data-step-card="4">
-    <button class="step-header" type="button" onclick="toggleStep(4)">
-      <div class="step-head-main"><span class="step-num">4</span><span class="step-title">The Score</span></div>
-      <div class="step-head-meta"><span class="step-summary" id="step4Summary"></span><span class="step-status not-started" id="step4Status">Not Started</span><span class="step-chevron">▾</span></div>
-    </button>
+    <div class="step-header">
+      <button type="button" class="step-header-toggle step-header-left" onclick="toggleStep(4)">
+        <span class="step-num">4</span><span class="step-title">The Score</span>
+      </button>
+      <button type="button" class="step-help-btn" onclick="openHelpModalForStep(4)" aria-label="Help for Step 4">?</button>
+      <button type="button" class="step-header-toggle step-header-right" onclick="toggleStep(4)">
+        <span class="step-summary" id="step4Summary"></span><span class="step-status not-started" id="step4Status">Not Started</span><span class="step-chevron">▾</span>
+      </button>
+    </div>
     <div class="step-body">
     <h2 class="step-headline">Step 4 — Go or No-Go?</h2>
     <div class="fit-panel" id="fitPanel">
@@ -21864,10 +22023,15 @@ var __async = (__this, __arguments, generator) => {
   </section>
 
   <section class="step-card" id="step5Card" data-step-card="5">
-    <button class="step-header" type="button" onclick="toggleStep(5)">
-      <div class="step-head-main"><span class="step-num">5</span><span class="step-title">Comms Center</span></div>
-      <div class="step-head-meta"><span class="step-summary" id="step5Summary"></span><span class="step-status not-started" id="step5Status">Not Started</span><span class="step-chevron">▾</span></div>
-    </button>
+    <div class="step-header">
+      <button type="button" class="step-header-toggle step-header-left" onclick="toggleStep(5)">
+        <span class="step-num">5</span><span class="step-title">Comms Center</span>
+      </button>
+      <button type="button" class="step-help-btn" onclick="openHelpModalForStep(5)" aria-label="Help for Step 5">?</button>
+      <button type="button" class="step-header-toggle step-header-right" onclick="toggleStep(5)">
+        <span class="step-summary" id="step5Summary"></span><span class="step-status not-started" id="step5Status">Not Started</span><span class="step-chevron">▾</span>
+      </button>
+    </div>
     <div class="step-body">
     <h2 class="step-headline">Step 5 — Your Comms Center</h2>
     <div class="output-panel" id="outputPanel">
@@ -21935,39 +22099,23 @@ var __async = (__this, __arguments, generator) => {
       </div>
     </div>
   </div>
-</main>
-
-<footer>Resume Tailor · Built to help people job hunt with less stress · Your data stays in your browser and is only sent to the AI provider you selected</footer>
-<div class="help-modal" id="helpModal" onclick="closeHelpModalOnBackdrop(event)">
-  <div class="help-dialog" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
-    <aside class="help-sidebar">
-      <div class="help-brand">
-        <span class="help-brand-icon">✦</span>
-        <div class="help-brand-text">
-          <strong>Resume Tailor</strong>
-          <span>Onboarding Guide</span>
-        </div>
-      </div>
-      <div class="help-nav" id="helpNav">
-        <button class="help-nav-item active" data-help-section="getting-started" onclick="setHelpSection('getting-started')"><div class="help-nav-top"><span class="help-nav-emoji">🚀</span><span class="help-nav-title">Getting Started</span></div><div class="help-nav-sub">What this tool does and how to begin</div></button>
-        <button class="help-nav-item" data-help-section="api-key" onclick="setHelpSection('api-key')"><div class="help-nav-top"><span class="help-nav-emoji">🔑</span><span class="help-nav-title">Your API Key</span></div><div class="help-nav-sub">Which AI to use and how to get a key</div></button>
-        <button class="help-nav-item" data-help-section="fit-score" onclick="setHelpSection('fit-score')"><div class="help-nav-top"><span class="help-nav-emoji">🎯</span><span class="help-nav-title">The Fit Score</span></div><div class="help-nav-sub">How scoring works and what it means</div></button>
-        <button class="help-nav-item" data-help-section="resume" onclick="setHelpSection('resume')"><div class="help-nav-top"><span class="help-nav-emoji">📄</span><span class="help-nav-title">Your Resume</span></div><div class="help-nav-sub">Getting the best output from your base resume</div></button>
-        <button class="help-nav-item" data-help-section="comms" onclick="setHelpSection('comms')"><div class="help-nav-top"><span class="help-nav-emoji">💼</span><span class="help-nav-title">The Comms Center</span></div><div class="help-nav-sub">Resume, cover letter, LinkedIn outreach</div></button>
-        <button class="help-nav-item" data-help-section="reach-out" onclick="setHelpSection('reach-out')"><div class="help-nav-top"><span class="help-nav-emoji">🔍</span><span class="help-nav-title">Who to Reach Out To</span></div><div class="help-nav-sub">Finding the right people at the company</div></button>
-        <button class="help-nav-item" data-help-section="pro-tips" onclick="setHelpSection('pro-tips')"><div class="help-nav-top"><span class="help-nav-emoji">💡</span><span class="help-nav-title">Pro Tips</span></div><div class="help-nav-sub">Getting the most out of every application</div></button>
-      </div>
-    </aside>
-    <section class="help-main">
-      <div class="help-main-head">
-        <h2 class="help-title" id="helpTitle">From job posting to full application pack in under 5 minutes</h2>
-        <button class="help-close" onclick="closeHelpModal()" aria-label="Close help modal">×</button>
-      </div>
-      <div class="help-content" id="helpContent"></div>
-      <div class="help-footer">Resume Tailor is free and open source. No ads. No data collection.</div>
-    </section>
+    </main>
   </div>
 </div>
+
+<footer>Resume Tailor · Built to help people job hunt with less stress · Your data stays in your browser and is only sent to the AI provider you selected</footer>
+
+<div class="help-modal" id="helpModal" onclick="closeHelpModalOnBackdrop(event)">
+  <div class="help-dialog-read" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="help-legend-read-head">
+      <h2 class="help-title" id="helpTitle">From job posting to full application pack in under 5 minutes</h2>
+      <button type="button" class="help-close" onclick="closeHelpModal()" aria-label="Close help">×</button>
+    </div>
+    <div class="help-content" id="helpContent"></div>
+    <div class="help-footer">Resume Tailor is free and open source. No ads. No data collection.</div>
+  </div>
+</div>
+
 <div class="ollama-setup-modal" id="ollamaSetupModal" onclick="closeOllamaSetupOnBackdrop(event)">
   <div class="ollama-setup-dialog" role="dialog" aria-modal="true" aria-labelledby="ollamaSetupTitle">
     <div class="ollama-setup-head">
@@ -22173,6 +22321,20 @@ const HELP_SECTIONS = {
 };
 let activeHelpSection = 'getting-started';
 
+/** Maps wizard step number → help sidebar section id */
+const STEP_HELP_SECTION = {
+  1: 'api-key',
+  2: 'getting-started',
+  3: 'resume',
+  4: 'fit-score',
+  5: 'comms'
+};
+
+function openHelpModalForStep(step) {
+  const id = STEP_HELP_SECTION[step] || 'getting-started';
+  openHelpModal(id);
+}
+
 function setHelpSection(sectionId, instant = false) {
   const content = document.getElementById('helpContent');
   const title = document.getElementById('helpTitle');
@@ -22195,10 +22357,11 @@ function setHelpSection(sectionId, instant = false) {
   setTimeout(render, 150);
 }
 
-function openHelpModal() {
+function openHelpModal(sectionId) {
   const modal = document.getElementById('helpModal');
   if (!modal) return;
-  setHelpSection('getting-started', true);
+  const id = sectionId && HELP_SECTIONS[sectionId] ? sectionId : 'getting-started';
+  setHelpSection(id, true);
   modal.classList.add('visible');
 }
 
@@ -23293,6 +23456,7 @@ window.addEventListener('load', () => {
   });
   document.getElementById('baseResume').addEventListener('input', updateAccordionMeta);
   updateAccordionMeta();
+  setHelpSection('getting-started', true);
 });
 
 document.addEventListener('keydown', (event) => {
