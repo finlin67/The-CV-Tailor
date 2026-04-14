@@ -1,3 +1,4 @@
+<img width="688" height="384" alt="image" src="https://github.com/user-attachments/assets/89927afd-33bc-497d-8873-2da0078541cd" />
 
 # Resume Tailor (Open Source)
 
