@@ -20124,7 +20124,7 @@ var __async = (__this, __arguments, generator) => {
 
 </script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap');
   :root {
     --navy: #1B3A6B;
     --navy-light: #234d8a;
@@ -20162,7 +20162,9 @@ var __async = (__this, __arguments, generator) => {
     justify-content: space-between;
     border-bottom: 4px solid var(--gold);
     box-shadow: 0 10px 40px rgba(11, 28, 58, 0.45);
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 50;
   }
   header::after {
     content: '';
@@ -20191,8 +20193,54 @@ var __async = (__this, __arguments, generator) => {
   }
   .header-right {
     display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 10px;
+  }
+  .header-meta-row {
+    display: inline-flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .header-attribution {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity 0.2s ease;
+    opacity: 0.5;
+  }
+  .header-attribution:hover { opacity: 0.9; }
+  .header-attribution a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+  }
+  .header-attribution:hover a { text-decoration: underline; }
+  .header-attribution a:hover {
+    color: rgba(255,255,255,0.9);
+    text-decoration: underline;
+  }
+  .header-linkedin-icon {
+    display: none;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: opacity 0.2s ease, text-decoration-color 0.2s ease;
+    opacity: 0.5;
+  }
+  .header-linkedin-icon:hover {
+    opacity: 0.9;
+    text-decoration: underline;
   }
   .app-shell {
     display: flex;
@@ -20202,8 +20250,8 @@ var __async = (__this, __arguments, generator) => {
     gap: 14px;
     max-width: 1180px;
     margin: 0 auto;
-    padding: 16px 18px 32px;
-    min-height: calc(100vh - 120px);
+    padding: 16px 18px 14px;
+    min-height: 0;
   }
   .help-legend-panel {
     width: clamp(248px, 24vw, 288px);
@@ -20258,6 +20306,17 @@ var __async = (__this, __arguments, generator) => {
     padding-right: 2px;
     scrollbar-color: rgba(255,255,255,0.25) transparent;
   }
+  .privacy-note-box {
+    margin-top: 12px;
+    border: 1px solid rgba(201,168,76,0.45);
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 11px;
+    line-height: 1.45;
+    color: rgba(255,255,255,0.9);
+  }
+  .privacy-note-box strong { color: #fff; }
   .wizard-column {
     flex: 1;
     min-width: 0;
@@ -20282,6 +20341,34 @@ var __async = (__this, __arguments, generator) => {
   .btn-help-main:hover {
     filter: brightness(1.06);
     transform: translateY(-1px);
+  }
+  .resume-upload-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .resume-upload-label {
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--navy);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .resume-upload-help {
+    font-size: 12px;
+    color: var(--text-light);
+  }
+  .resume-upload-input {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
   }
   .help-modal {
     position: fixed;
@@ -20763,12 +20850,14 @@ var __async = (__this, __arguments, generator) => {
   .output-panel.visible { display: block; }
   .output-tabs {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     background: var(--navy-dim);
     border-bottom: 1px solid rgba(255,255,255,0.1);
     gap: 8px;
     padding: 10px;
     border-radius: 0;
-    overflow-x: auto;
+    overflow-x: visible;
   }
   .tab-btn {
     padding: 10px 14px;
@@ -20783,6 +20872,9 @@ var __async = (__this, __arguments, generator) => {
     transition: all 0.2s;
     letter-spacing: 0.03em;
     white-space: nowrap;
+    flex: 1 1 170px;
+    text-align: center;
+    justify-content: center;
   }
   .tab-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
   .tab-btn.active {
@@ -20923,9 +21015,34 @@ var __async = (__this, __arguments, generator) => {
     text-align: center;
     padding: 24px;
     font-size: 11px;
-    color: var(--text-light);
+    color: #7f7f7f;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
     border-top: 1px solid var(--border);
-    margin-top: 12px;
+    margin-top: 4px;
+    background: var(--bg);
+  }
+  footer a {
+    color: #7f7f7f;
+    text-decoration: none;
+  }
+  footer a:hover {
+    color: #7f7f7f;
+    text-decoration: underline;
+  }
+  .footer-help {
+    margin-top: 6px;
+    font-size: 11px;
+    color: #8a8a8a;
+  }
+  .footer-help a {
+    color: #8a8a8a;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(138,138,138,0.45);
+  }
+  .footer-help a:hover {
+    color: #8a8a8a;
+    text-decoration: underline;
   }
 
   /* Streaming cursor */
@@ -21756,27 +21873,90 @@ var __async = (__this, __arguments, generator) => {
     display: grid;
     gap: 12px;
   }
-  .outreach-card {
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px;
-    background: #fff;
-  }
-  .outreach-card strong {
+  .outreach-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
     color: var(--navy);
-    display: block;
-    margin-bottom: 6px;
-  }
-  .outreach-card p {
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--text-mid);
     margin-bottom: 10px;
   }
+  .outreach-card {
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--navy);
+    border-radius: 10px;
+    padding: 16px;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    position: relative;
+  }
+  .outreach-card.hm { border-left-color: var(--navy); }
+  .outreach-card.recruiting { border-left-color: var(--gold); }
+  .outreach-card.peer { border-left-color: #27AE60; }
+  .outreach-card.cross { border-left-color: #8E44AD; }
+  .outreach-card.executive { border-left-color: #C0392B; }
+  .outreach-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .outreach-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.35;
+    margin: 0;
+  }
+  .outreach-badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 3px 9px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .outreach-badge.hm { background: #e8eef8; color: var(--navy); }
+  .outreach-badge.recruiting { background: #fff3cf; color: #8e6908; }
+  .outreach-badge.peer { background: #e7f7ed; color: #1d7f43; }
+  .outreach-badge.cross { background: #f1e8f8; color: #6e2f8b; }
+  .outreach-badge.executive { background: #f8e8e8; color: #9d2f24; }
+  .outreach-reason {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.5;
+    margin: 0 0 12px;
+  }
+  .outreach-card .btn-search-linkedin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    min-width: 128px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--navy);
+    background: var(--navy);
+    color: #fff !important;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s ease;
+  }
+  .outreach-card .btn-search-linkedin:hover { background: var(--navy-light); color: #fff !important; }
+  .outreach-card .btn-search-linkedin:focus-visible { box-shadow: 0 0 0 2px rgba(27,58,107,0.25); }
+  .outreach-card .btn-search-linkedin:focus-visible { background: var(--navy-light); }
+  .outreach-card .btn-search-linkedin:active { transform: translateY(1px); }
   .outreach-disclaimer {
     margin-top: 14px;
     font-size: 12px;
-    color: var(--text-light);
+    color: #6b7280;
+    font-weight: 600;
+    font-style: italic;
   }
   .label-short { display: none; }
   @media (max-width: 960px) {
@@ -21790,6 +21970,8 @@ var __async = (__this, __arguments, generator) => {
       margin-top: 0;
     }
     .help-legend-inner { padding-top: 14px; }
+    .header-right { align-items: flex-start; width: 100%; }
+    .header-meta-row { justify-content: flex-start; }
   }
   @media (max-width: 720px) {
     .wizard-main { padding: 18px 14px 28px; }
@@ -21808,11 +21990,17 @@ var __async = (__this, __arguments, generator) => {
     .history-header { min-height: 44px; }
     .help-close { min-width: 44px; min-height: 44px; }
     .ollama-setup-close { min-width: 44px; min-height: 44px; }
+    .resume-upload-label { min-height: 44px; display: inline-flex; align-items: center; }
+    .header-attribution { display: none; }
+    .header-linkedin-icon { display: inline-block; }
     .step-header { padding: 14px; flex-wrap: wrap; align-items: center; }
     .step-title { font-size: 17px; }
     .step-header-toggle.step-header-right { flex: 1 1 100%; justify-content: space-between; margin-top: 4px; }
     .step-summary { max-width: 72vw; font-size: 12px; overflow-wrap: anywhere; word-break: break-word; }
     .step-title { overflow-wrap: anywhere; word-break: break-word; }
+    .outreach-top { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .outreach-badge { font-size: 10px; }
+    .outreach-card { padding: 14px; }
     .step-body { padding: 0 14px; }
     .step-card.active .step-body { padding-bottom: 16px; }
     .step-headline { font-size: 21px; }
@@ -21823,7 +22011,8 @@ var __async = (__this, __arguments, generator) => {
     .step-rail-item { font-size: 11px; padding: 7px 10px; }
     .btn-next { width: 100%; text-align: center; }
     .btn-back { width: 100%; text-align: center; }
-    .header-right { width: 100%; justify-content: space-between; }
+    .header-right { width: 100%; align-items: flex-start; }
+    .header-meta-row { width: 100%; justify-content: space-between; }
     header { flex-wrap: wrap; gap: 10px; padding: 22px 16px; }
     .help-callouts { grid-template-columns: 1fr; }
     .score-grid { grid-template-columns: 1fr 1fr; }
@@ -21840,7 +22029,11 @@ var __async = (__this, __arguments, generator) => {
     <p>AI-assisted resume and outreach generator</p>
   </div>
     <div class="header-right">
-      <span class="header-badge">Powered by AI</span>
+      <div class="header-meta-row">
+        <span class="header-badge">Powered by AI</span>
+        <span class="header-attribution">Built by <a href="https://linkedin.com/in/michaelfindling" target="_blank" rel="noopener noreferrer">Michael Findling</a></span>
+        <a class="header-linkedin-icon" href="https://linkedin.com/in/michaelfindling" target="_blank" rel="noopener noreferrer" aria-label="Built by Michael Findling on LinkedIn">in</a>
+      </div>
     </div>
 </header>
 
@@ -21863,6 +22056,9 @@ var __async = (__this, __arguments, generator) => {
         <button type="button" class="help-nav-item" data-help-section="comms" onclick="openHelpModal('comms')"><div class="help-nav-top"><span class="help-nav-emoji">💼</span><span class="help-nav-title">The Comms Center</span></div><div class="help-nav-sub">Resume, cover letter, LinkedIn outreach</div></button>
         <button type="button" class="help-nav-item" data-help-section="reach-out" onclick="openHelpModal('reach-out')"><div class="help-nav-top"><span class="help-nav-emoji">🔍</span><span class="help-nav-title">Who to Reach Out To</span></div><div class="help-nav-sub">Finding the right people at the company</div></button>
         <button type="button" class="help-nav-item" data-help-section="pro-tips" onclick="openHelpModal('pro-tips')"><div class="help-nav-top"><span class="help-nav-emoji">💡</span><span class="help-nav-title">Pro Tips</span></div><div class="help-nav-sub">Getting the most out of every application</div></button>
+      </div>
+      <div class="privacy-note-box">
+        <strong>Your information stays private.</strong><br>No one is tracking you here. We do not save your resume, job details, or personal info on a Resume Tailor server.<br><br>Your text is only sent to the AI service you choose in Step 1 (Claude, OpenAI, Gemini, or Ollama) so it can generate results. Your local history stays on your own browser on your own device.
       </div>
     </div>
   </aside>
@@ -21996,6 +22192,11 @@ var __async = (__this, __arguments, generator) => {
     <div class="step-body">
     <h2 class="step-headline">Step 3 — Your Resume vs. This Role</h2>
     <p class="step-sub">This is your master resume. Tweak anything before scoring — edits here are temporary and will not overwrite your saved profile.</p>
+    <div class="resume-upload-wrap">
+      <input type="file" id="resumeFileInput" class="resume-upload-input" accept=".pdf,.doc,.docx,.txt" onchange="handleResumeFileUpload(event)">
+      <label for="resumeFileInput" class="resume-upload-label">⬆ Upload PDF/Word Resume</label>
+      <span class="resume-upload-help">Accepted: .pdf, .docx, .doc, .txt. <strong>Best results: paste resume text directly.</strong> I’m still learning here, so I’m working on the PDF/Word conversion thing.</span>
+    </div>
     <div class="field">
       <label>Resume Text<span class="req">*</span></label>
       <textarea id="baseResume" class="tall" style="min-height:460px" placeholder="Paste your full resume here..."></textarea>
@@ -22070,8 +22271,8 @@ var __async = (__this, __arguments, generator) => {
       <div class="output-tabs">
         <button class="tab-btn active" onclick="switchTab('resume', this)"><span class="label-full">📄 Tailored Resume</span><span class="label-short">📄 Resume</span></button>
         <button class="tab-btn" onclick="switchTab('cover', this)"><span class="label-full">✉️ Cover Letter</span><span class="label-short">✉️ Cover</span></button>
-        <button class="tab-btn" onclick="switchTab('linkedin-conn', this)"><span class="label-full">💼 LinkedIn — Connection Request</span><span class="label-short">💼 Connect</span></button>
-        <button class="tab-btn" onclick="switchTab('linkedin-recruiter', this)"><span class="label-full">📨 LinkedIn — Recruiter/HM Message</span><span class="label-short">📨 Recruiter</span></button>
+        <button class="tab-btn" onclick="switchTab('linkedin-conn', this)"><span class="label-full">💼 LinkedIn Connect Note</span><span class="label-short">💼 Connect</span></button>
+        <button class="tab-btn" onclick="switchTab('linkedin-recruiter', this)"><span class="label-full">📨 LinkedIn Recruiter Message</span><span class="label-short">📨 Recruiter</span></button>
         <button class="tab-btn" onclick="switchTab('outreach-targets', this)"><span class="label-full">🔍 Who to Reach Out To</span><span class="label-short">🔍 Outreach</span></button>
       </div>
       <div id="tab-resume" class="tab-content active">
@@ -22112,8 +22313,9 @@ var __async = (__this, __arguments, generator) => {
         <div class="output-actions"><button class="btn-action btn-copy" onclick="copyOutput('recruiterOutput', this)">📋 Copy</button></div>
       </div>
       <div id="tab-outreach-targets" class="tab-content">
-        <div class="outreach-grid" id="outreachTargetsOutput"></div>
+        <div class="outreach-headline" id="outreachHeadline">People worth connecting with</div>
         <div class="outreach-disclaimer" id="outreachDisclaimer"></div>
+        <div class="outreach-grid" id="outreachTargetsOutput"></div>
       </div>
     </div>
     </div>
@@ -22135,7 +22337,7 @@ var __async = (__this, __arguments, generator) => {
   </div>
 </div>
 
-<footer>Resume Tailor · Built to help people job hunt with less stress · Your data stays in your browser and is only sent to the AI provider you selected</footer>
+<footer>Resume Tailor is free and open source · Built by <a href="https://linkedin.com/in/michaelfindling" target="_blank" rel="noopener noreferrer">Michael Findling</a> · <a href="https://gtmstack.pro" target="_blank" rel="noopener noreferrer">gtmstack.pro</a> · No ads · No data collection · <a href="#" target="_blank" rel="noopener noreferrer">⭐ Star on GitHub</a><div class="footer-help">Need help? Reach out on <a href="https://www.linkedin.com/in/michaelfindling/" target="_blank" rel="noopener noreferrer">LinkedIn</a> or <a href="mailto:cv@gtmstack.pro">email (cv at gtmstack.pro)</a>.</div></footer>
 
 <div class="help-modal" id="helpModal" onclick="closeHelpModalOnBackdrop(event)">
   <div class="help-dialog-read" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
@@ -22318,6 +22520,7 @@ const HELP_SECTIONS = {
           <div class="comms-item"><div class="comms-meta">✉️ <strong>Cover Letter</strong> — company-specific hook, under 380 words</div><div class="mini-badges"><span class="mini-badge">Copy</span><span class="mini-badge">Download</span></div></div>
           <div class="comms-item"><div class="comms-meta">🔗 <strong>Connection Note</strong> — 300 characters, LinkedIn-ready</div><div class="mini-badges"><span class="mini-badge">Copy</span></div></div>
           <div class="comms-item"><div class="comms-meta">📨 <strong>Recruiter Message</strong> — InMail-style, under 150 words</div><div class="mini-badges"><span class="mini-badge">Copy</span></div></div>
+          <div class="comms-item"><div class="comms-meta">🔍 <strong>Who to Reach Out To</strong> — suggested titles to find the right contacts</div><div class="mini-badges"><span class="mini-badge">Search LinkedIn</span></div></div>
         </div>
       </div>`
   },
@@ -22616,20 +22819,44 @@ function updateStep2Continue() {
 function renderOutreachTargets(targets = [], company = '') {
   const wrap = document.getElementById('outreachTargetsOutput');
   const note = document.getElementById('outreachDisclaimer');
-  if (!wrap || !note) return;
+  const headline = document.getElementById('outreachHeadline');
+  if (!wrap || !note || !headline) return;
+  const labelCompany = company || 'this company';
+  headline.textContent = `People worth connecting with at ${labelCompany}`;
   if (!Array.isArray(targets) || targets.length === 0) {
     wrap.innerHTML = '<div class="history-empty">Run one generation and your outreach title ideas will show up here.</div>';
     note.textContent = '';
     return;
   }
-  wrap.innerHTML = targets.map(t => {
+  const escapeHtml = (s) => String(s || '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  const categoryMeta = (categoryRaw) => {
+    const c = String(categoryRaw || '').toLowerCase();
+    if (c.includes('hiring')) return { cls: 'hm', label: 'Hiring Manager' };
+    if (c.includes('recruit') || c.includes('ta') || c.includes('talent') || c.includes('human resources') || c.includes('hr')) return { cls: 'recruiting', label: 'Recruiting/TA' };
+    if (c.includes('peer')) return { cls: 'peer', label: 'Peer' };
+    if (c.includes('cross') || c.includes('revops') || c.includes('sales') || c.includes('product')) return { cls: 'cross', label: 'Cross-functional' };
+    if (c.includes('executive') || c.includes('sponsor') || c.includes('vp') || c.includes('c-level')) return { cls: 'executive', label: 'Executive Sponsor' };
+    return { cls: 'hm', label: 'Hiring Manager' };
+  };
+  const categoryRank = { hm: 1, recruiting: 2, peer: 3, cross: 4, executive: 5 };
+
+  const normalized = targets.map(t => {
     const title = (t?.title || '').toString().trim();
+    const category = (t?.category || '').toString().trim();
     const reason = (t?.reason || '').toString().trim();
+    const meta = categoryMeta(category);
+    return { title, reason, meta };
+  }).filter(item => item.title).sort((a, b) => (categoryRank[a.meta.cls] || 99) - (categoryRank[b.meta.cls] || 99)).slice(0, 6);
+
+  wrap.innerHTML = normalized.map(item => {
+    const title = item.title;
+    const reason = item.reason;
+    const meta = item.meta;
     const q = encodeURIComponent(`${title} ${company}`.trim());
     const url = `https://www.linkedin.com/search/results/people/?keywords=${q}&origin=GLOBAL_SEARCH_HEADER`;
-    return `<div class="outreach-card"><strong>${title}</strong><p>${reason}</p><a class="btn-action btn-copy" href="${url}" target="_blank" rel="noopener noreferrer">Search on LinkedIn</a></div>`;
+    return `<div class="outreach-card ${meta.cls}"><div class="outreach-top"><h4 class="outreach-title">${escapeHtml(title)}</h4><span class="outreach-badge ${meta.cls}">${escapeHtml(meta.label)}</span></div><p class="outreach-reason">${escapeHtml(reason)}</p><a class="btn-search-linkedin" href="${url}" target="_blank" rel="noopener noreferrer">Search LinkedIn</a></div>`;
   }).join('');
-  note.textContent = `These are suggested titles to search for — not real people. Use LinkedIn search to find the right contacts at ${company || 'the company'}.`;
+  note.textContent = `These are suggested titles to search — not specific people. Use LinkedIn to find the right contacts at ${labelCompany}.`;
 }
 
 function getProviderKeyLink(mode) {
@@ -22641,6 +22868,169 @@ function getProviderKeyLink(mode) {
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+let mammothLoaderPromise = null;
+let pdfJsLoaderPromise = null;
+
+function loadExternalScriptOnce(url, readyCheck) {
+  return new Promise((resolve, reject) => {
+    if (readyCheck()) {
+      resolve();
+      return;
+    }
+    const existing = document.querySelector(`script[data-src="${url}"]`);
+    if (existing) {
+      existing.addEventListener('load', () => resolve(), { once: true });
+      existing.addEventListener('error', () => reject(new Error(`Failed to load script: ${url}`)), { once: true });
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = url;
+    script.async = true;
+    script.dataset.src = url;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error(`Failed to load script: ${url}`));
+    document.head.appendChild(script);
+  });
+}
+
+async function ensureMammothLoaded() {
+  if (!mammothLoaderPromise) {
+    mammothLoaderPromise = loadExternalScriptOnce(
+      'https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js',
+      () => !!window.mammoth
+    );
+  }
+  await mammothLoaderPromise;
+}
+
+async function ensurePdfJsLoaded() {
+  if (!pdfJsLoaderPromise) {
+    pdfJsLoaderPromise = loadExternalScriptOnce(
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js',
+      () => !!window.pdfjsLib
+    ).then(() => {
+      if (window.pdfjsLib && window.pdfjsLib.GlobalWorkerOptions) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+      }
+    });
+  }
+  await pdfJsLoaderPromise;
+}
+
+async function extractTextFromDocx(file) {
+  await ensureMammothLoaded();
+  const arrayBuffer = await file.arrayBuffer();
+  const result = await window.mammoth.extractRawText({ arrayBuffer });
+  return (result?.value || '').trim();
+}
+
+async function extractTextFromPdf(file) {
+  await ensurePdfJsLoaded();
+  const arrayBuffer = await file.arrayBuffer();
+  const typedArray = new Uint8Array(arrayBuffer);
+  const pdf = await window.pdfjsLib.getDocument({ data: typedArray }).promise;
+  const pages = [];
+  for (let p = 1; p <= pdf.numPages; p++) {
+    const page = await pdf.getPage(p);
+    const content = await page.getTextContent();
+    const items = content.items
+      .map(item => ({
+        text: String(item.str || '').trim(),
+        x: Number(item.transform?.[4] || 0),
+        y: Number(item.transform?.[5] || 0)
+      }))
+      .filter(item => item.text);
+
+    items.sort((a, b) => {
+      const yDiff = Math.abs(b.y - a.y);
+      if (yDiff > 1.8) return b.y - a.y;
+      return a.x - b.x;
+    });
+
+    const lines = [];
+    for (const item of items) {
+      const last = lines[lines.length - 1];
+      if (!last || Math.abs(last.y - item.y) > 1.8) {
+        lines.push({ y: item.y, parts: [item] });
+      } else {
+        last.parts.push(item);
+      }
+    }
+
+    const text = lines.map(line => {
+      line.parts.sort((a, b) => a.x - b.x);
+      return line.parts.map(part => part.text).join(' ');
+    }).join('\n').replace(/[ \t]{2,}/g, ' ').trim();
+
+    if (text) pages.push(text);
+  }
+  return pages.join('\n\n').trim();
+}
+
+function normalizeUploadedResumeText(text) {
+  const normalized = String(text || '')
+    .replace(/\r\n/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+  return normalized;
+}
+
+async function handleResumeFileUpload(event) {
+  const input = event?.target;
+  const file = input?.files?.[0];
+  if (!file) return;
+  try {
+    setStatus(`Reading <strong>${file.name}</strong>...`, 'info');
+    let text = '';
+    const name = file.name.toLowerCase();
+    let sourceType = 'text';
+    if (name.endsWith('.txt')) {
+      text = (await file.text()).trim();
+      sourceType = 'txt';
+    } else if (name.endsWith('.docx')) {
+      text = await extractTextFromDocx(file);
+      sourceType = 'docx';
+    } else if (name.endsWith('.pdf')) {
+      text = await extractTextFromPdf(file);
+      sourceType = 'pdf';
+    } else if (name.endsWith('.doc')) {
+      throw new Error('Legacy .doc files are not reliably readable in-browser. Please save as .docx or .pdf and upload again.');
+    } else {
+      throw new Error('Unsupported file type. Use .pdf, .docx, or .txt.');
+    }
+
+    text = normalizeUploadedResumeText(text);
+
+    if (!text || text.length < 80) {
+      throw new Error('No readable text was found in this file. Try a text-based PDF or copy/paste the resume manually.');
+    }
+
+    const resumeField = document.getElementById('baseResume');
+    if (!resumeField) throw new Error('Resume field not found.');
+    if (resumeField.value.trim() && resumeField.value.trim() !== text) {
+      const replace = confirm('Replace the current resume text with the uploaded file content?');
+      if (!replace) {
+        setStatus('Upload canceled. Existing resume text was kept.', 'info');
+        return;
+      }
+    }
+    resumeField.value = text;
+    updateAccordionMeta();
+    if (sourceType === 'pdf') {
+      setStatus(`Loaded <strong>${file.name}</strong>. Please quickly review formatting and contact details before running fit analysis — PDF extraction can reorder text. For best accuracy, paste resume text directly.`, 'warning');
+    } else {
+      setStatus(`Loaded <strong>${file.name}</strong> successfully. Review and edit before running fit analysis.`, 'info');
+    }
+  } catch (err) {
+    const msg = err?.message || 'Could not read the file.';
+    setStatus(`Upload failed: ${msg}`, 'error');
+  } finally {
+    if (input) input.value = '';
+  }
 }
 
 let currentRunContext = '';
@@ -23301,7 +23691,7 @@ async function generate() {
 
   const systemPrompt = `You are an expert resume writer and career coach specializing in senior B2B SaaS marketing leadership. You write with precision, impact, and authenticity. You never fabricate metrics or experience — you reframe and emphasize existing achievements to align with what a specific role demands.
 
-Your output must be five clearly separated documents. Format your entire response as a JSON object with exactly five keys: "resume" (string), "coverLetter" (string), "connectionNote" (string), "recruiterMessage" (string), "outreachTargets" (array). Return ONLY the JSON object — no preamble, no markdown fences, no commentary.`;
+Your output must be five clearly separated documents. Format your entire response as a JSON object with exactly five keys: "resume" (string), "coverLetter" (string), "connectionNote" (string), "recruiterMessage" (string), "outreachTargets" (array of objects with "title", "category", "reason"). Return ONLY the JSON object — no preamble, no markdown fences, no commentary.`;
 
   const userPrompt = `I am applying for the position of ${role} at ${company}.
 ${priorities ? `\nApplication priorities: ${priorities}\n` : ''}
@@ -23358,12 +23748,20 @@ INSTRUCTIONS:
    - Confident but not pushy tone
 
 5. OUTREACH TARGETS (outreachTargets):
-   - Based on the role at this company, suggest 5-7 specific job titles of people worth connecting with on LinkedIn.
-   - Mix of: likely hiring manager title, HR or talent acquisition titles for this function, peer or cross-functional titles, and one senior executive sponsor title.
-   - For each, write one sentence on why this person is worth a connection and what angle to use.
-   - Return as an array of objects with "title" and "reason".
+   - Based on the role of ${role} at ${company}, suggest 6 specific job titles of real people worth finding on LinkedIn.
+   - Include:
+     - The most likely hiring manager title for this role
+     - 2 talent acquisition or recruiting titles specific to this function
+     - 1 peer title (same level this person would work alongside)
+     - 1 cross-functional title (Sales, RevOps, or Product partner)
+     - 1 senior executive sponsor title (VP or C-level who likely owns this function)
+   - For each, provide:
+     - title (string)
+     - category (string: one of "Hiring Manager", "Recruiting/TA", "Peer", "Cross-functional", "Executive Sponsor")
+     - reason (string: one sentence on why this person is worth a connection and what angle to use)
+   - Return as JSON array: [{"title":"...","category":"...","reason":"..."}]
 
-Return ONLY valid JSON: {"resume":"...","coverLetter":"...","connectionNote":"...","recruiterMessage":"...","outreachTargets":[{"title":"...","reason":"..."}]}`;
+Return ONLY valid JSON: {"resume":"...","coverLetter":"...","connectionNote":"...","recruiterMessage":"...","outreachTargets":[{"title":"...","category":"...","reason":"..."}]}`;
 
   currentRunContext = 'generate';
   try {
