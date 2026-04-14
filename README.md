@@ -1,139 +1,189 @@
 # Resume Tailor (Open Source)
 
-**Resume Tailor** is a lightweight, browser-based tool that helps you turn *one* resume into a role-specific application package—fast.
+**Resume Tailor** is a local-first job application assistant that turns your base resume + a target job posting into a full application package in minutes.
 
-Paste:
-- a job description
-- your current resume
+You provide:
+- the role details
+- your master resume
+- optional priorities for this application
 
-Generate:
-- a tailored resume draft
-- a cover letter draft
-- a LinkedIn connection note
-- a LinkedIn outreach message
+It generates:
+- tailored resume
+- tailored cover letter
+- LinkedIn connection note
+- LinkedIn recruiter message
+- suggested outreach titles (who to contact)
 
-**No accounts. No backend.** It runs in your browser tab—your files aren’t uploaded to this repository or any project server.
-
----
-
-## Why this exists
-
-Applying well takes time: reading the posting, matching keywords, rewriting bullets, adjusting tone, writing a cover letter, and then doing LinkedIn outreach.
-
-Resume Tailor focuses on the repetitive parts so you can spend your energy where it matters:
-- refining your story
-- verifying accuracy
-- customizing details that *should* be human
+No account required. No project backend required.
 
 ---
 
-## Features
+## What This Tool Solves
 
-- **Local-first**: open `index.html` and run it immediately
-- **Multiple AI providers**: Claude, ChatGPT, Gemini, or local models via **Ollama**
-- **Practical outputs**: resume + cover letter + LinkedIn messaging in one flow
-- **Privacy by design**: no project-owned backend storing your content
-
----
-
-## Quick Start (3 steps)
-
-1. **Download** (or clone) this repository.
-2. **Open** `index.html` in your browser (`Chrome`, `Edge`, `Firefox`, or `Safari`).
-3. **Paste** your API key, choose a provider, and start tailoring.
+Most applicants lose time rewriting the same materials for every role. Resume Tailor compresses the repetitive work so you can focus on final judgment:
+- choosing the right roles
+- editing for truth and accuracy
+- personalizing with your own voice
 
 ---
 
-## Privacy & Data Handling
+## Core Features
 
-This app is fully local and does not send your data to a project-owned backend.
+- **5-step guided workflow** from setup to final outreach assets
+- **Provider flexibility**: Claude, ChatGPT, Gemini, or local Ollama
+- **Fit analysis step** before generation (go/no-go scoring)
+- **Comms Center output tabs** for each asset type
+- **Outreach title suggestions** with direct LinkedIn search links
+- **Local history** stored in your browser for quick iteration
 
-When you click **Generate**, the text you provided is sent **directly from your browser** to the AI provider you selected:
-- Anthropic (Claude)
-- OpenAI (ChatGPT)
-- Google (Gemini)
-- or your local Ollama server (if configured)
+---
 
-If privacy is your top priority, consider using **Ollama** for local/offline generation.
+## Quick Start
+
+1. Download or clone this repository.
+2. Open `index.html` in a browser.
+3. Select an AI provider and enter your API key (or use Ollama locally).
+4. Work through Steps 1–5 in order.
+
+For best compatibility, run from a local server (especially for Ollama and browser security restrictions).
+
+---
+
+## Workflow Guide (Step by Step)
+
+### Step 1 — Your Secret Identity Key
+
+Choose your provider and add your key:
+- Claude (Anthropic)
+- ChatGPT (OpenAI)
+- Gemini (Google)
+- Ollama (local)
+
+If you use Ollama, follow the built-in setup guide and keep the local service running.
+
+### Step 2 — What Is the Job?
+
+Add job context:
+- company
+- role title
+- full job description
+
+Optional: use URL fetch to auto-fill fields from a posting page.
+
+### Step 3 — Your Resume
+
+Paste your **master** resume (recommended) or upload a file.
+
+Best practice:
+- open your resume in PDF/Word
+- Select All, Copy, Paste into Step 3
+
+This usually gives cleaner text than relying on PDF extraction.
+
+### Step 4 — The Score
+
+Run fit analysis before generating assets.
+
+You get:
+- 0–100 fit score
+- strengths
+- gaps
+
+Use this as a filter: decide whether to tailor deeply, lightly, or move on.
+
+### Step 5 — Comms Center
+
+Generate and review:
+- tailored resume
+- cover letter
+- LinkedIn connection note
+- recruiter/hiring manager message
+- who-to-reach-out-to title list
+
+Each section includes quick copy/download actions where applicable.
 
 ---
 
 ## Screenshots
 
-Add screenshots to `docs/images/` and update these paths:
+### Main Workflow
+![Main screen](docs/images/main-screen.png)
 
-- `![Main screen](docs/images/main-screen.png)`
-- `![Fit analysis](docs/images/fit-analysis.png)`
-- `![Generated outputs](docs/images/generated-output.png)`
+### Fit Analysis
+![Fit analysis](docs/images/fit-analysis.png)
 
----
+### Scoring View
+![Scoring](docs/images/scoring.png)
 
-## Which AI should I use?
-
-| Provider | Best For | Cost (light use) | Output Quality for Resume Tailoring | Sign Up |
-|---|---|---|---|---|
-| Claude | Strong tone + nuanced rewrites | Pay-per-use, low cost per request | Excellent for polished, human-sounding wording | https://console.anthropic.com |
-| ChatGPT (`gpt-4o`) | Balanced speed + quality | Pay-per-use, usually moderate | Very strong + consistent drafts | https://platform.openai.com |
-| Gemini (`gemini-1.5-flash`) | Speed + lower cost | Often lowest paid cost, plus free-tier options | Great for frequent iteration | https://aistudio.google.com |
-
-If you’re not sure where to start: **Claude** and **ChatGPT** typically produce the strongest first drafts for this use case; **Gemini** is often the budget-friendly option for lots of iterations.
+### Generated Outputs
+![Generated outputs](docs/images/generated-output.png)
 
 ---
 
-## Free / Offline option: Ollama
+## Privacy & Data Handling
 
-Use compatible local models through **Ollama** for no per-request API billing.
+Resume Tailor does **not** use a project-owned backend to store your resume or job content.
 
-- Website: https://ollama.com  
-- Great when you want local control or prefer not to send resume data to a cloud API.
+When you run analysis/generation, your prompts go directly from your browser to the provider you selected:
+- Anthropic (Claude)
+- OpenAI (ChatGPT)
+- Google (Gemini)
+- or your own local Ollama host
 
-See `docs/SETUP.md` for the full Ollama walkthrough.
-
----
-
-## FAQ
-
-### Does this cost money?
-The tool itself is free.
-
-Cloud AI providers charge based on usage. For most job search sessions, costs are usually low—but not zero.
-
-### Is my data safe?
-This project has no backend that stores your content.
-
-Your text stays in your browser except when you send prompts to your chosen AI provider. Review that provider’s data policies if you have strict privacy requirements.
-
-### Does it work on Mac and Windows?
-Yes. If you can open `index.html` in a browser, you can use it on Mac or Windows.
-
-### What if URL fetch doesn’t work?
-Some company career pages block scraping/proxy requests.
-
-If that happens:
-- copy the job description manually from the posting
-- paste it into the **Job Description** box
-- continue as normal
+Local history is saved in your browser storage on your device.
 
 ---
 
-## Documentation
+## Provider Recommendations
 
-- Beginner setup: `docs/SETUP.md`
-- API key setup: `docs/API_KEYS.md`
+| Provider | Best for | Notes |
+|---|---|---|
+| Claude | Strong writing quality and nuanced tone | Great default for high-polish outputs |
+| ChatGPT (`gpt-4o`) | Balanced quality/speed | Reliable structured outputs |
+| Gemini (`gemini-1.5-flash`) | Fast iteration and budget-friendly usage | Good for repeated drafts |
+| Ollama (local) | Privacy-first local generation | Requires local setup and compatible model |
+
+If unsure, start with Claude or ChatGPT for first-pass quality, then iterate.
+
+---
+
+## Troubleshooting
+
+### I get API errors or retries
+- Verify key format and available provider credits
+- Retry after short delay (temporary provider overload can happen)
+- Try a different provider if needed
+
+### URL fetch fails
+Some career pages block extraction/proxies.  
+Fallback: copy the description manually into Step 2.
+
+### PDF upload looks messy
+This can happen due to PDF layout encoding.  
+Best workaround: open PDF/Word, Select All, copy/paste plain text into Step 3.
+
+---
+
+## Docs
+
+- Setup guide: `docs/SETUP.md`
+- API key guide: `docs/API_KEYS.md`
 
 ---
 
 ## Contributing
 
-Issues and pull requests are welcome—especially for:
-- better prompt templates
-- UI improvements
+Contributions are welcome for:
+- prompt quality improvements
+- UI/UX polish
 - provider/model compatibility
-- clearer setup docs and screenshots
+- documentation clarity
+
+Open an issue or PR with a clear summary and before/after behavior.
 
 ---
 
-## Credits
+## Attribution
 
-Built by **finlin67**  
-GitHub: https://github.com/finlin67
+Built by [Michael Findling](https://linkedin.com/in/michaelfindling)  
+Website: [gtmstack.pro](https://gtmstack.pro)
