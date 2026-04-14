@@ -1,119 +1,89 @@
 # Resume Tailor (Open Source)
 
-**Resume Tailor** is a local-first job application assistant that turns your base resume + a target job posting into a full application package in minutes.
+Resume Tailor helps job seekers go from **job post → tailored application package** in one focused workflow.
 
-You provide:
-- the role details
-- your master resume
-- optional priorities for this application
+It is built to reduce repetitive rewriting, improve message alignment, and give you cleaner first drafts fast.
 
-It generates:
-- tailored resume
-- tailored cover letter
+---
+
+## What You Get
+
+From one target role and your base resume, Resume Tailor generates:
+
+- Tailored resume
+- Tailored cover letter
 - LinkedIn connection note
-- LinkedIn recruiter message
-- suggested outreach titles (who to contact)
+- LinkedIn recruiter/hiring manager message
+- Suggested outreach titles (who to find and contact)
 
-No account required. No project backend required.
-
----
-
-## What This Tool Solves
-
-Most applicants lose time rewriting the same materials for every role. Resume Tailor compresses the repetitive work so you can focus on final judgment:
-- choosing the right roles
-- editing for truth and accuracy
-- personalizing with your own voice
+You can copy everything immediately and download key documents when needed.
 
 ---
 
-## Core Features
+## Why People Use It
 
-- **5-step guided workflow** from setup to final outreach assets
-- **Provider flexibility**: Claude, ChatGPT, Gemini, or local Ollama
-- **Fit analysis step** before generation (go/no-go scoring)
-- **Comms Center output tabs** for each asset type
-- **Outreach title suggestions** with direct LinkedIn search links
-- **Local history** stored in your browser for quick iteration
+Most job applications fail on speed or consistency:
+- Resume not aligned to the role language
+- Cover letter too generic
+- Outreach started too late (or not at all)
+
+Resume Tailor gives you a practical system:
+1. Qualify the role with a fit score
+2. Tailor your materials in one pass
+3. Leave with both assets and outreach angles
 
 ---
 
 ## Quick Start
 
 1. Download or clone this repository.
-2. Open `index.html` in a browser.
-3. Select an AI provider and enter your API key (or use Ollama locally).
-4. Work through Steps 1–5 in order.
+2. Open `index.html` in your browser.
+3. Choose an AI provider and add your key (or use Ollama locally).
+4. Run Steps 1–5 in sequence.
 
-For best compatibility, run from a local server (especially for Ollama and browser security restrictions).
+Tip: for best browser compatibility, use a local server instead of opening with `file://`.
 
 ---
 
-## Workflow Guide (Step by Step)
+## The 5-Step Workflow
 
 ### Step 1 — Your Secret Identity Key
-
-Choose your provider and add your key:
-- Claude (Anthropic)
-- ChatGPT (OpenAI)
-- Gemini (Google)
-- Ollama (local)
-
-If you use Ollama, follow the built-in setup guide and keep the local service running.
+- Select provider: Claude, ChatGPT, Gemini, or Ollama
+- Add your API key (or local Ollama host/model)
+- Confirm provider readiness before moving on
 
 ### Step 2 — What Is the Job?
-
-Add job context:
-- company
-- role title
-- full job description
-
-Optional: use URL fetch to auto-fill fields from a posting page.
+- Add company, role title, and full job description
+- Optional: use URL fetch to auto-fill fields
+- Confirm details are accurate before scoring
 
 ### Step 3 — Your Resume
-
-Paste your **master** resume (recommended) or upload a file.
-
-Best practice:
-- open your resume in PDF/Word
-- Select All, Copy, Paste into Step 3
-
-This usually gives cleaner text than relying on PDF extraction.
+- Paste your master resume (recommended)
+- You can upload PDF/Word/TXT, but direct paste is usually cleaner
+- Best practical workflow: open resume in PDF/Word, Select All, Copy, Paste
 
 ### Step 4 — The Score
-
-Run fit analysis before generating assets.
-
-You get:
-- 0–100 fit score
-- strengths
-- gaps
-
-Use this as a filter: decide whether to tailor deeply, lightly, or move on.
+- Run fit analysis before generating final materials
+- Get:
+  - 0–100 fit score
+  - top strengths
+  - likely gaps
+- Use this as your go/no-go filter
 
 ### Step 5 — Comms Center
-
-Generate and review:
-- tailored resume
-- cover letter
-- LinkedIn connection note
-- recruiter/hiring manager message
-- who-to-reach-out-to title list
-
-Each section includes quick copy/download actions where applicable.
+- Review all output tabs in one place
+- Copy, edit, and export as needed
+- Use the outreach tab to quickly identify titles worth contacting on LinkedIn
 
 ---
 
 ## Screenshots
 
 ### Main Workflow
-![Main screen](docs/images/main-screen.png)
+![Main workflow](docs/images/main-screen.png)
 
 ### Fit Analysis
 ![Fit analysis](docs/images/fit-analysis.png)
-
-### Scoring View
-![Scoring](docs/images/scoring.png)
 
 ### Generated Outputs
 ![Generated outputs](docs/images/generated-output.png)
@@ -122,49 +92,50 @@ Each section includes quick copy/download actions where applicable.
 
 ## Privacy & Data Handling
 
-Resume Tailor does **not** use a project-owned backend to store your resume or job content.
+Resume Tailor does **not** run a project-owned backend that stores your resume or job content.
 
-When you run analysis/generation, your prompts go directly from your browser to the provider you selected:
+When you click analyze/generate, your prompt is sent directly from your browser to the provider you selected:
+
 - Anthropic (Claude)
 - OpenAI (ChatGPT)
 - Google (Gemini)
-- or your own local Ollama host
+- Local Ollama (if configured)
 
-Local history is saved in your browser storage on your device.
+History is saved in your browser storage on your own device.
 
 ---
 
-## Provider Recommendations
+## Provider Guidance
 
 | Provider | Best for | Notes |
 |---|---|---|
-| Claude | Strong writing quality and nuanced tone | Great default for high-polish outputs |
-| ChatGPT (`gpt-4o`) | Balanced quality/speed | Reliable structured outputs |
-| Gemini (`gemini-1.5-flash`) | Fast iteration and budget-friendly usage | Good for repeated drafts |
-| Ollama (local) | Privacy-first local generation | Requires local setup and compatible model |
+| Claude | High-quality tone and nuanced rewrite quality | Great default for polished first drafts |
+| ChatGPT (`gpt-4o`) | Balanced speed + consistency | Reliable for structured outputs |
+| Gemini (`gemini-1.5-flash`) | Fast iteration and lower-cost loops | Strong for frequent revision |
+| Ollama (local) | Local-first privacy workflows | Requires setup + compatible local model |
 
-If unsure, start with Claude or ChatGPT for first-pass quality, then iterate.
+If you are unsure, start with Claude or ChatGPT, then optimize for speed/cost.
 
 ---
 
 ## Troubleshooting
 
-### I get API errors or retries
-- Verify key format and available provider credits
-- Retry after short delay (temporary provider overload can happen)
-- Try a different provider if needed
+### API call errors / retries
+- Verify key format and account credits
+- Retry after a short delay (temporary provider overload is common)
+- Switch providers if needed
 
-### URL fetch fails
-Some career pages block extraction/proxies.  
-Fallback: copy the description manually into Step 2.
+### URL fetch does not work
+Some sites block extraction/proxy flows.  
+Fallback: copy/paste the job description directly in Step 2.
 
-### PDF upload looks messy
-This can happen due to PDF layout encoding.  
-Best workaround: open PDF/Word, Select All, copy/paste plain text into Step 3.
+### Uploaded PDF text looks messy
+PDF extraction can reorder content depending on the source file.  
+Best workaround: copy/paste plain text from your resume into Step 3.
 
 ---
 
-## Docs
+## Documentation
 
 - Setup guide: `docs/SETUP.md`
 - API key guide: `docs/API_KEYS.md`
@@ -173,13 +144,13 @@ Best workaround: open PDF/Word, Select All, copy/paste plain text into Step 3.
 
 ## Contributing
 
-Contributions are welcome for:
-- prompt quality improvements
+Contributions are welcome, especially for:
+- prompt quality
 - UI/UX polish
-- provider/model compatibility
-- documentation clarity
+- provider/model reliability
+- onboarding and documentation clarity
 
-Open an issue or PR with a clear summary and before/after behavior.
+Open an issue or PR with expected behavior, actual behavior, and screenshots when helpful.
 
 ---
 
