@@ -20816,6 +20816,71 @@ var __async = (__this, __arguments, generator) => {
   }
   .fit-bullet:last-child { border-bottom: none; }
   .fit-bullet .bull-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+  .fit-decision {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    background: #f9fbff;
+  }
+  .fit-decision-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .fit-decision-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .fit-decision-impact {
+    font-size: 12px;
+    color: var(--text-mid);
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 9px;
+    background: #fff;
+  }
+  .fit-decision-copy {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  .fit-output-selector {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    background: #fff;
+  }
+  .fit-output-selector-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .fit-output-selector-sub {
+    font-size: 12px;
+    color: var(--text-mid);
+    margin-bottom: 8px;
+  }
+  .generation-choice-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+  }
+  .generation-choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .generation-choice input { accent-color: var(--navy); }
   .fit-actions {
     display: flex;
     gap: 12px;
@@ -20916,6 +20981,8 @@ var __async = (__this, __arguments, generator) => {
     background: #fff;
     box-shadow: 0 2px 8px rgba(0,0,0,0.12);
   }
+  .tab-btn.hidden-tab,
+  .tab-content.hidden-tab { display: none !important; }
   .tab-content { display: none; padding: 28px; }
   .tab-content.active { display: block; }
 
@@ -22180,14 +22247,14 @@ var __async = (__this, __arguments, generator) => {
     </div>
     <div class="step-body">
     <h2 class="step-headline">Step 2 — What's the Job?</h2>
-    <p class="step-sub">Drop in the role details. You can paste manually or pull from a job URL first.</p>
+    <p class="step-sub">Drop in the role details. You can paste manually or try auto-fill from a job URL (best effort).</p>
     <div class="field url-fetch-field">
-      <label>Auto-fill from URL <span style="color:var(--text-light);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <label>Try auto-fill from URL <span style="color:var(--text-light);font-weight:400;text-transform:none;letter-spacing:0">(optional, may fail on some job sites)</span></label>
       <div class="url-fetch-row">
         <input type="url" id="jobUrl" placeholder="https://company.com/careers/role..." />
         <button class="btn-fetch" id="fetchBtn" onclick="fetchJobUrl()">
           <span class="fetch-spinner"></span>
-          <span class="fetch-text">⚡ Fetch</span>
+          <span class="fetch-text">⚡ Try auto-fill</span>
         </button>
       </div>
       <div id="fetchStatus" class="fetch-status"></div>
@@ -22279,6 +22346,22 @@ var __async = (__this, __arguments, generator) => {
           </div>
         </div>
         <div class="fit-bullets" id="fitBullets"></div>
+        <div class="fit-decision" id="fitDecision">
+          <div class="fit-decision-head">
+            <div class="fit-decision-title" id="fitDecisionTitle">Run fit analysis to get a recommendation.</div>
+            <div class="fit-decision-impact" id="fitDecisionImpact">Impact: n/a</div>
+          </div>
+          <div class="fit-decision-copy" id="fitDecisionCopy">Once your score is ready, CVTailor will suggest whether resume rewrites are likely to materially improve ATS alignment.</div>
+        </div>
+        <div class="fit-output-selector">
+          <div class="fit-output-selector-title">Choose what to generate in Step 5</div>
+          <div class="fit-output-selector-sub">Generate only what you need to save time and API tokens.</div>
+          <div class="generation-choice-grid">
+            <label class="generation-choice"><input type="checkbox" id="genResume" checked> Tailored resume rewrite</label>
+            <label class="generation-choice"><input type="checkbox" id="genCover" checked> Cover letter</label>
+            <label class="generation-choice"><input type="checkbox" id="genLinkedIn" checked> LinkedIn outreach pack</label>
+          </div>
+        </div>
         <div class="fit-actions">
           <button class="btn-back" onclick="goToStep(3)">← Back to Step 3</button>
           <button class="btn-continue" id="continueBtn" onclick="proceedGenerate()">
@@ -22307,27 +22390,27 @@ var __async = (__this, __arguments, generator) => {
     <h2 class="step-headline">Step 5 — Your Comms Center</h2>
     <div class="output-panel" id="outputPanel">
       <div class="output-tabs">
-        <button class="tab-btn active" onclick="switchTab('resume', this)"><span class="label-full">📄 Tailored Resume</span><span class="label-short">📄 Resume</span></button>
-        <button class="tab-btn" onclick="switchTab('cover', this)"><span class="label-full">✉️ Cover Letter</span><span class="label-short">✉️ Cover</span></button>
-        <button class="tab-btn" onclick="switchTab('linkedin-conn', this)"><span class="label-full">💼 LinkedIn Connect Note</span><span class="label-short">💼 Connect</span></button>
-        <button class="tab-btn" onclick="switchTab('linkedin-recruiter', this)"><span class="label-full">📨 LinkedIn Recruiter Message</span><span class="label-short">📨 Recruiter</span></button>
-        <button class="tab-btn" onclick="switchTab('outreach-targets', this)"><span class="label-full">🔍 Who to Reach Out To</span><span class="label-short">🔍 Outreach</span></button>
+        <button class="tab-btn active" id="tabBtn-resume" data-tab="resume" onclick="switchTab('resume', this)"><span class="label-full">📄 Tailored Resume</span><span class="label-short">📄 Resume</span></button>
+        <button class="tab-btn" id="tabBtn-cover" data-tab="cover" onclick="switchTab('cover', this)"><span class="label-full">✉️ Cover Letter</span><span class="label-short">✉️ Cover</span></button>
+        <button class="tab-btn" id="tabBtn-linkedin-conn" data-tab="linkedin-conn" onclick="switchTab('linkedin-conn', this)"><span class="label-full">💼 LinkedIn Connect Note</span><span class="label-short">💼 Connect</span></button>
+        <button class="tab-btn" id="tabBtn-linkedin-recruiter" data-tab="linkedin-recruiter" onclick="switchTab('linkedin-recruiter', this)"><span class="label-full">📨 LinkedIn Recruiter Message</span><span class="label-short">📨 Recruiter</span></button>
+        <button class="tab-btn" id="tabBtn-outreach-targets" data-tab="outreach-targets" onclick="switchTab('outreach-targets', this)"><span class="label-full">🔍 Who to Reach Out To</span><span class="label-short">🔍 Outreach</span></button>
       </div>
-      <div id="tab-resume" class="tab-content active">
+      <div id="tab-resume" class="tab-content active" data-tab-content="resume">
         <div class="output-text" id="resumeOutput"></div>
         <div class="output-actions">
           <button class="btn-action btn-copy" onclick="copyOutput('resumeOutput', this)">📋 Copy</button>
           <button class="btn-action btn-docx" onclick="downloadDocx('resume')">⬇ Download .docx</button>
         </div>
       </div>
-      <div id="tab-cover" class="tab-content">
+      <div id="tab-cover" class="tab-content" data-tab-content="cover">
         <div class="output-text" id="coverOutput"></div>
         <div class="output-actions">
           <button class="btn-action btn-copy" onclick="copyOutput('coverOutput', this)">📋 Copy</button>
           <button class="btn-action btn-docx" onclick="downloadDocx('cover')">⬇ Download .docx</button>
         </div>
       </div>
-      <div id="tab-linkedin-conn" class="tab-content">
+      <div id="tab-linkedin-conn" class="tab-content" data-tab-content="linkedin-conn">
         <div class="linkedin-label">
           <span class="li-icon">🔗</span>
           <div>
@@ -22339,7 +22422,7 @@ var __async = (__this, __arguments, generator) => {
         <div class="output-text li-output" id="connOutput"></div>
         <div class="output-actions"><button class="btn-action btn-copy" onclick="copyOutput('connOutput', this)">📋 Copy</button></div>
       </div>
-      <div id="tab-linkedin-recruiter" class="tab-content">
+      <div id="tab-linkedin-recruiter" class="tab-content" data-tab-content="linkedin-recruiter">
         <div class="linkedin-label">
           <span class="li-icon">📨</span>
           <div>
@@ -22350,7 +22433,7 @@ var __async = (__this, __arguments, generator) => {
         <div class="output-text li-output" id="recruiterOutput"></div>
         <div class="output-actions"><button class="btn-action btn-copy" onclick="copyOutput('recruiterOutput', this)">📋 Copy</button></div>
       </div>
-      <div id="tab-outreach-targets" class="tab-content">
+      <div id="tab-outreach-targets" class="tab-content" data-tab-content="outreach-targets">
         <div class="outreach-headline" id="outreachHeadline">People worth connecting with</div>
         <div class="outreach-disclaimer" id="outreachDisclaimer"></div>
         <div class="outreach-grid" id="outreachTargetsOutput"></div>
@@ -22845,7 +22928,11 @@ function stepSummary(step) {
   const resume = document.getElementById('baseResume')?.value.trim() || '';
   const scoreNum = document.getElementById('fitScoreNum')?.textContent?.trim() || '';
   const fitLabel = document.getElementById('fitLabel')?.textContent?.trim() || '';
-  const hasOutputs = !!document.getElementById('resumeOutput')?.textContent.trim();
+  const hasOutputs = !!document.getElementById('resumeOutput')?.textContent.trim() ||
+    !!document.getElementById('coverOutput')?.textContent.trim() ||
+    !!document.getElementById('connOutput')?.textContent.trim() ||
+    !!document.getElementById('recruiterOutput')?.textContent.trim() ||
+    !!document.getElementById('outreachTargetsOutput')?.textContent.trim();
   if (step === 1) {
     const provider = providerName(currentMode);
     return (stepStatus(1) === 'complete') ? `${provider} · API key set ✓` : `${provider} · waiting for API key`;
@@ -23382,6 +23469,7 @@ async function retryGenerationFromStatus(btn) {
 }
 
 function switchTab(tab, btn) {
+  if (!btn || btn.classList.contains('hidden-tab')) return;
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
   btn.classList.add('active');
@@ -23426,6 +23514,97 @@ let fitCheckInProgress = false;
 let generationInProgress = false;
 /** Provider mode when the last successful fit check finished (for drift warning vs generation). */
 let lastFitCheckProviderMode = null;
+const CRITICAL_GAP_PATTERN = /\b(must|required|requirement|missing|lack|limited|no experience|without|not demonstrated)\b/i;
+
+function getGenerationSelection() {
+  return {
+    resume: !!document.getElementById('genResume')?.checked,
+    coverLetter: !!document.getElementById('genCover')?.checked,
+    linkedInPack: !!document.getElementById('genLinkedIn')?.checked
+  };
+}
+
+function ensureGenerationSelection() {
+  const selection = getGenerationSelection();
+  const hasAny = Object.values(selection).some(Boolean);
+  if (!hasAny) {
+    setStatus('Select at least one output to generate (resume, cover letter, or LinkedIn pack).', 'error');
+    return null;
+  }
+  return selection;
+}
+
+function applyOutputVisibility(selection = getGenerationSelection()) {
+  const visibleTabs = [];
+  if (selection.resume) visibleTabs.push('resume');
+  if (selection.coverLetter) visibleTabs.push('cover');
+  if (selection.linkedInPack) visibleTabs.push('linkedin-conn', 'linkedin-recruiter', 'outreach-targets');
+
+  document.querySelectorAll('.tab-btn[data-tab]').forEach(btn => {
+    const tab = btn.dataset.tab;
+    btn.classList.toggle('hidden-tab', !visibleTabs.includes(tab));
+  });
+  document.querySelectorAll('[data-tab-content]').forEach(content => {
+    const tab = content.dataset.tabContent;
+    content.classList.toggle('hidden-tab', !visibleTabs.includes(tab));
+  });
+
+  const activeBtn = document.querySelector('.tab-btn.active:not(.hidden-tab)');
+  if (!activeBtn) {
+    const firstVisible = document.querySelector('.tab-btn[data-tab]:not(.hidden-tab)');
+    if (firstVisible) {
+      const tab = firstVisible.dataset.tab;
+      switchTab(tab, firstVisible);
+    }
+  }
+}
+
+function countCriticalGaps(bullets = []) {
+  return (bullets || []).filter((b) => {
+    if (!b || String(b.type || '').toLowerCase() !== 'gap') return false;
+    return CRITICAL_GAP_PATTERN.test(String(b.text || ''));
+  }).length;
+}
+
+function fitDecision(score, bullets = []) {
+  const criticalGaps = countCriticalGaps(bullets);
+  if (score >= 82 && criticalGaps === 0) {
+    return {
+      title: 'Apply now. Resume customization is optional.',
+      impact: 'Impact: Low expected ATS lift',
+      copy: 'You are a strong match with no critical requirement gaps detected. Minor edits are optional and likely to have limited impact on response odds.'
+    };
+  }
+  if (score >= 68 && criticalGaps <= 1) {
+    return {
+      title: 'Apply, but do a targeted resume pass first.',
+      impact: 'Impact: Moderate expected ATS lift',
+      copy: 'You have solid alignment, but there are still gaps to close in language and emphasis. A focused rewrite on top requirements can improve ATS relevance.'
+    };
+  }
+  if (score >= 50) {
+    return {
+      title: 'Customize before applying.',
+      impact: 'Impact: High expected ATS lift',
+      copy: 'Your profile has partial overlap with meaningful gaps. Tailoring is likely to materially improve keyword alignment and recruiter clarity.'
+    };
+  }
+  return {
+    title: 'Not a strong fit right now.',
+    impact: 'Impact: Very high gap risk',
+    copy: 'This looks like a stretch role based on current alignment. Consider skipping or applying only if there is a strategic reason.'
+  };
+}
+
+function renderFitDecision(score, bullets = []) {
+  const decision = fitDecision(score, bullets);
+  const titleEl = document.getElementById('fitDecisionTitle');
+  const impactEl = document.getElementById('fitDecisionImpact');
+  const copyEl = document.getElementById('fitDecisionCopy');
+  if (titleEl) titleEl.textContent = decision.title;
+  if (impactEl) impactEl.textContent = decision.impact;
+  if (copyEl) copyEl.textContent = decision.copy;
+}
 
 function scoreClass(n) {
   if (n >= 85) return 'score-excellent';
@@ -23482,6 +23661,9 @@ async function runFitCheck(reanalyze = false) {
   document.getElementById('fitLabel').textContent = 'Analyzing your fit...';
   document.getElementById('fitSublabel').textContent = '';
   document.getElementById('fitBullets').innerHTML = '<div style="color:var(--text-light);font-size:13px;padding:8px 0;">Running fit analysis — this takes about 5 seconds...</div>';
+  document.getElementById('fitDecisionTitle').textContent = 'Building your fit recommendation...';
+  document.getElementById('fitDecisionImpact').textContent = 'Impact: pending';
+  document.getElementById('fitDecisionCopy').textContent = 'Cvtailor will classify expected value from customization once strengths and gaps are scored.';
   document.getElementById('continueBtn').disabled = true;
 
   // Lock main generate button
@@ -23556,6 +23738,7 @@ Return ONLY a JSON object with exactly this structure:
       return `<div class="fit-bullet"><span class="bull-icon">${icon}</span><span>${b.text}</span></div>`;
     }).join('');
     document.getElementById('fitBullets').innerHTML = bulletsHtml;
+    renderFitDecision(score, parsed.bullets || []);
 
     // Enable continue
     document.getElementById('continueBtn').disabled = false;
@@ -23606,6 +23789,8 @@ Return ONLY a JSON object with exactly this structure:
 
 async function proceedGenerate() {
   if (generationInProgress) return;
+  const selection = ensureGenerationSelection();
+  if (!selection) return;
   const btn = document.getElementById('continueBtn');
   btn.disabled = true;
   btn.classList.add('loading');
@@ -23636,7 +23821,9 @@ function skipRole() {
 // ── URL Job Fetch ──────────────────────────────────────────────────
 const CORS_PROXIES = [
   url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
-  url => `https://corsproxy.io/?${encodeURIComponent(url)}`
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  // Readability mirror that often works when JS-heavy sites block direct scraping.
+  url => `https://r.jina.ai/http://${url.replace(/^https?:\/\//i, '')}`
 ];
 
 function setFetchStatus(msg, type) {
@@ -23650,9 +23837,15 @@ async function fetchWithProxy(url) {
     try {
       const res = await fetch(proxy(url));
       if (!res.ok) continue;
-      const data = await res.json();
-      // allorigins wraps in {contents:...}, corsproxy returns raw text
-      const html = data.contents || await res.text();
+      const contentType = String(res.headers.get('content-type') || '').toLowerCase();
+      let html = '';
+      if (contentType.includes('application/json')) {
+        const data = await res.json();
+        // allorigins wraps in {contents:...}
+        html = String(data?.contents || data?.data || '');
+      } else {
+        html = await res.text();
+      }
       if (html && html.length > 200) return html;
     } catch { continue; }
   }
@@ -23694,7 +23887,7 @@ async function fetchJobUrl() {
   const btn = document.getElementById('fetchBtn');
   btn.disabled = true;
   btn.classList.add('loading');
-  setFetchStatus('Pulling the job page now...', 'info');
+  setFetchStatus('Trying auto-fill now (best effort)...', 'info');
 
   try {
     const rawHtml = await fetchWithProxy(url);
@@ -23778,6 +23971,8 @@ function setMode(mode) {
 
 async function generate() {
   if (generationInProgress) return;
+  const selection = ensureGenerationSelection();
+  if (!selection) return;
   const company = document.getElementById('company').value.trim();
   const role    = document.getElementById('role').value.trim();
   const jobDescription = document.getElementById('jobDescription').value.trim();
@@ -23811,23 +24006,23 @@ async function generate() {
 
   document.getElementById('resumeOutput').innerHTML = '';
   document.getElementById('coverOutput').innerHTML = '';
+  document.getElementById('connOutput').innerHTML = '';
+  document.getElementById('recruiterOutput').innerHTML = '';
+  renderOutreachTargets([], company);
+  applyOutputVisibility(selection);
   document.getElementById('outputPanel').classList.remove('visible');
-
+  const selectedKeys = [];
+  if (selection.resume) selectedKeys.push('"resume"');
+  if (selection.coverLetter) selectedKeys.push('"coverLetter"');
+  if (selection.linkedInPack) selectedKeys.push('"connectionNote"', '"recruiterMessage"', '"outreachTargets"');
   const systemPrompt = `You are an expert resume writer and career coach specializing in senior B2B SaaS marketing leadership. You write with precision, impact, and authenticity. You never fabricate metrics or experience — you reframe and emphasize existing achievements to align with what a specific role demands.
 
-Your output must be five clearly separated documents. Format your entire response as a JSON object with exactly five keys: "resume" (string), "coverLetter" (string), "connectionNote" (string), "recruiterMessage" (string), "outreachTargets" (array of objects with "title", "category", "reason"). Return ONLY the JSON object — no preamble, no markdown fences, no commentary.`;
+Format your response as a JSON object with ONLY these keys: ${selectedKeys.join(', ')}.
+Do not include any keys that were not requested. Return ONLY the JSON object — no preamble, no markdown fences, no commentary.`;
 
-  const userPrompt = `I am applying for the position of ${role} at ${company}.
-${priorities ? `\nApplication priorities: ${priorities}\n` : ''}
-JOB DESCRIPTION:
-${jobDescription}
-
-MY BASE RESUME:
-${baseResume}
-
-INSTRUCTIONS:
-
-1. TAILORED RESUME: Rewrite my resume to maximize relevance for this specific role.
+  const instructions = [];
+  if (selection.resume) {
+    instructions.push(`1. TAILORED RESUME (resume): Rewrite my resume to maximize relevance for this specific role.
    - Reorder or reframe bullets to surface the most relevant achievements first
    - Mirror key terminology and phrases from the JD (for ATS alignment)
    - Tighten any bullets that aren't relevant to this role
@@ -23837,41 +24032,35 @@ INSTRUCTIONS:
    - Keep the same overall structure: Summary, Highlights, Experience, Competencies, Innovation, Education
    - Combine EDUCATION and ADDITIONAL INFORMATION into a single section titled "EDUCATION & LANGUAGES" — list the degree first, then languages on the next line as "Languages: Portuguese (Working Proficiency) · Spanish (Working Proficiency)"
    - CORE COMPETENCIES: Keep all four category lines but reorder the skills within each category to front-load the terms that most closely match the JD's language. If the JD uses a specific term that exists in my competencies, make sure it appears first in its category. Do not add or remove any skills — only reorder within each existing category line. Format each category as a bullet point: • Category Label: Skill · Skill · Skill
-   - INNOVATION & THOUGHT LEADERSHIP: Format each project as a bullet: • Project Name (Month Year) | URL\nThen a second bullet for the description.
+   - INNOVATION & THOUGHT LEADERSHIP: Format each project as a bullet: • Project Name (Month Year) | URL then a second bullet for the description.
    - EDUCATION & LANGUAGES: Format as two bullets: • Degree | University, City, State  and  • Languages: Portuguese (Working Proficiency) · Spanish (Working Proficiency)
    - CRITICAL formatting rule for job headers — use EXACTLY this two-line format for every role:
      Line 1: Company | Title | Start Month Year – End Month Year
      Line 2: [LOCATION] City, State (Remote from [Your City, State])
-     Use the company's actual HQ city and state. Only append "(Remote from [Your City, State])" if the role was remote. If the role was on-site, list the HQ city and state with no remote qualifier.
-     Examples:
-     PRGX Global | Director of Digital Marketing & ABM | July 2024 – Sept 2025
-     [LOCATION] Atlanta, GA (Remote from Seattle, WA)
-
-     Salesforce | Senior Manager, Marketing Operations & Enablement | March 2014 – Sept 2021
-     [LOCATION] San Francisco, CA
-
-2. COVER LETTER: Write a compelling, authentic cover letter (max 380 words).
+     Use the company's actual HQ city and state. Only append "(Remote from [Your City, State])" if the role was remote. If the role was on-site, list the HQ city and state with no remote qualifier.`);
+  }
+  if (selection.coverLetter) {
+    instructions.push(`${instructions.length + 1}. COVER LETTER (coverLetter): Write a compelling, authentic cover letter (max 380 words).
    - Open with a specific, genuine hook tied to ${company}'s mission or market position
    - Connect 2–3 of my strongest achievements directly to the role's key requirements
    - Show knowledge of the company's challenges or goals without being generic
    - Voice should be confident but human — senior executive, not corporate drone
    - Close with a clear, direct call to action
-   - Format: City/Date header, proper business letter structure, no fluff
-
-3. CONNECTION REQUEST NOTE (connectionNote): A LinkedIn connection request note. STRICT 300 character limit including spaces. Must:
+   - Format: City/Date header, proper business letter structure, no fluff`);
+  }
+  if (selection.linkedInPack) {
+    instructions.push(`${instructions.length + 1}. CONNECTION REQUEST NOTE (connectionNote): A LinkedIn connection request note. STRICT 300 character limit including spaces.
    - Open with a specific reference to ${company} or the role
    - Mention one relevant credential or achievement in 1 sentence
    - End with a soft ask to connect — never "I'd love to pick your brain"
-   - Sound human, not like a template
-
-4. RECRUITER/HIRING MANAGER MESSAGE (recruiterMessage): A LinkedIn InMail or direct message (max 150 words). Must:
+   - Sound human, not like a template`);
+    instructions.push(`${instructions.length + 1}. RECRUITER/HIRING MANAGER MESSAGE (recruiterMessage): A LinkedIn InMail or direct message (max 150 words).
    - Reference the specific ${role} role at ${company}
    - Lead with the single most relevant achievement from the resume for this role
    - Briefly explain why ${company} specifically interests you
    - Clear call to action — a 15-minute call or coffee chat
-   - Confident but not pushy tone
-
-5. OUTREACH TARGETS (outreachTargets):
+   - Confident but not pushy tone`);
+    instructions.push(`${instructions.length + 1}. OUTREACH TARGETS (outreachTargets):
    - Based on the role of ${role} at ${company}, suggest 6 specific job titles of real people worth finding on LinkedIn.
    - Include:
      - The most likely hiring manager title for this role
@@ -23882,10 +24071,21 @@ INSTRUCTIONS:
    - For each, provide:
      - title (string)
      - category (string: one of "Hiring Manager", "Recruiting/TA", "Peer", "Cross-functional", "Executive Sponsor")
-     - reason (string: one sentence on why this person is worth a connection and what angle to use)
-   - Return as JSON array: [{"title":"...","category":"...","reason":"..."}]
+     - reason (string: one sentence on why this person is worth a connection and what angle to use)`);
+  }
 
-Return ONLY valid JSON: {"resume":"...","coverLetter":"...","connectionNote":"...","recruiterMessage":"...","outreachTargets":[{"title":"...","category":"...","reason":"..."}]}`;
+  const userPrompt = `I am applying for the position of ${role} at ${company}.
+${priorities ? `\nApplication priorities: ${priorities}\n` : ''}
+JOB DESCRIPTION:
+${jobDescription}
+
+MY BASE RESUME:
+${baseResume}
+
+INSTRUCTIONS:
+${instructions.join('\n\n')}
+
+Return ONLY valid JSON containing exactly these keys: ${selectedKeys.join(', ')}.`;
 
   currentRunContext = 'generate';
   try {
@@ -23900,7 +24100,7 @@ Return ONLY valid JSON: {"resume":"...","coverLetter":"...","connectionNote":"..
       const clean = raw.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
       parsed = JSON.parse(clean);
     } catch {
-      const match = raw.match(/\{[\s\S]*"resume"[\s\S]*"coverLetter"[\s\S]*\}/);
+      const match = raw.match(/\{[\s\S]*\}/);
       if (match) {
         try { parsed = JSON.parse(match[0]); }
         catch {
@@ -23939,17 +24139,17 @@ Return ONLY valid JSON: {"resume":"...","coverLetter":"...","connectionNote":"..
       }
     }
 
-    document.getElementById('resumeOutput').textContent   = parsed.resume || '';
-    document.getElementById('coverOutput').textContent    = parsed.coverLetter || '';
-    document.getElementById('connOutput').textContent     = parsed.connectionNote || '';
-    document.getElementById('recruiterOutput').textContent = parsed.recruiterMessage || '';
-    renderOutreachTargets(parsed.outreachTargets || [], company);
+    document.getElementById('resumeOutput').textContent   = selection.resume ? (parsed.resume || '') : '';
+    document.getElementById('coverOutput').textContent    = selection.coverLetter ? (parsed.coverLetter || '') : '';
+    document.getElementById('connOutput').textContent     = selection.linkedInPack ? (parsed.connectionNote || '') : '';
+    document.getElementById('recruiterOutput').textContent = selection.linkedInPack ? (parsed.recruiterMessage || '') : '';
+    renderOutreachTargets(selection.linkedInPack ? (parsed.outreachTargets || []) : [], company);
 
     // Update connection note char count
     updateConnCount();
 
     // Save to history
-    saveToHistory(company, role, parsed.resume || '', parsed.coverLetter || '', parsed.connectionNote || '', parsed.recruiterMessage || '', parsed.outreachTargets || []);
+    saveToHistory(company, role, selection.resume ? (parsed.resume || '') : '', selection.coverLetter ? (parsed.coverLetter || '') : '', selection.linkedInPack ? (parsed.connectionNote || '') : '', selection.linkedInPack ? (parsed.recruiterMessage || '') : '', selection.linkedInPack ? (parsed.outreachTargets || []) : []);
 
     setProgress(100);
     document.getElementById('outputPanel').classList.add('visible');
@@ -24068,6 +24268,10 @@ function loadFromHistory(id) {
   document.getElementById('connOutput').textContent      = entry.connectionNote || '';
   document.getElementById('recruiterOutput').textContent = entry.recruiterMessage || '';
   renderOutreachTargets(entry.outreachTargets || [], entry.company || '');
+  if (document.getElementById('genResume')) document.getElementById('genResume').checked = !!entry.resume;
+  if (document.getElementById('genCover')) document.getElementById('genCover').checked = !!entry.coverLetter;
+  if (document.getElementById('genLinkedIn')) document.getElementById('genLinkedIn').checked = !!entry.connectionNote || !!entry.recruiterMessage || (Array.isArray(entry.outreachTargets) && entry.outreachTargets.length > 0);
+  applyOutputVisibility();
   document.getElementById('company').value = entry.company;
   document.getElementById('role').value    = entry.role;
   updateConnCount();
@@ -24084,6 +24288,10 @@ function downloadFromHistory(id, type) {
   document.getElementById('connOutput').textContent      = entry.connectionNote || '';
   document.getElementById('recruiterOutput').textContent = entry.recruiterMessage || '';
   renderOutreachTargets(entry.outreachTargets || [], entry.company || '');
+  if (document.getElementById('genResume')) document.getElementById('genResume').checked = !!entry.resume;
+  if (document.getElementById('genCover')) document.getElementById('genCover').checked = !!entry.coverLetter;
+  if (document.getElementById('genLinkedIn')) document.getElementById('genLinkedIn').checked = !!entry.connectionNote || !!entry.recruiterMessage || (Array.isArray(entry.outreachTargets) && entry.outreachTargets.length > 0);
+  applyOutputVisibility();
   document.getElementById('company').value = entry.company;
   document.getElementById('role').value    = entry.role;
   downloadDocx(type);
@@ -24123,9 +24331,18 @@ window.addEventListener('load', () => {
   setMode(currentMode);
   updateStep2Continue();
   renderOutreachTargets([], '');
+  applyOutputVisibility();
   goToStep(1);
   ['company', 'role', 'jobDescription'].forEach(id => {
     document.getElementById(id).addEventListener('input', updateStep2Continue);
+  });
+  ['genResume', 'genCover', 'genLinkedIn'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('change', () => {
+      applyOutputVisibility();
+      clearStatus();
+    });
   });
   document.getElementById('baseResume').addEventListener('input', () => {
     updateAccordionMeta();

@@ -8,6 +8,14 @@ It is built to reduce repetitive rewriting, improve message alignment, and give 
 
 ---
 
+## What's New
+
+- Step 4 now includes a recommendation layer after scoring: apply as-is vs customize first, with clear thresholds.
+- Step 5 generation is now selectable so users can generate only what they need (resume rewrite, cover letter, LinkedIn pack) and reduce token usage.
+- Step 2 URL import is now labeled as **Try auto-fill** and treated as best effort, with clearer guidance when job sites block extraction.
+
+---
+
 ## Who This Is For
 
 - Job seekers who want stronger, role-specific applications without starting from scratch every time
@@ -28,6 +36,7 @@ From one target role and your base resume, Resume Tailor generates:
 - Suggested outreach titles (who to find and contact)
 
 You can copy everything immediately and download key documents when needed.
+You can also choose to generate only what you need (resume rewrite, cover letter, and/or LinkedIn pack) to reduce token usage.
 
 ---
 
@@ -65,7 +74,7 @@ Tip: for best browser compatibility, use a local server instead of opening with 
 
 ### Step 2 — What Is the Job?
 - Add company, role title, and full job description
-- Optional: use URL fetch to auto-fill fields
+- Optional: use **Try auto-fill from URL** (best effort; some job sites block extraction)
 - Confirm details are accurate before scoring
 
 ### Step 3 — Your Resume
@@ -79,9 +88,11 @@ Tip: for best browser compatibility, use a local server instead of opening with 
   - 0–100 fit score
   - top strengths
   - likely gaps
+- Get a recommendation on whether resume customization is likely to improve ATS alignment
 - Use this as your go/no-go filter
 
 ### Step 5 — Comms Center
+- Choose what to generate first (resume rewrite, cover letter, LinkedIn pack) to save API tokens
 - Review all output tabs in one place
 - Copy, edit, and export as needed
 - Use the outreach tab to quickly identify titles worth contacting on LinkedIn
@@ -129,6 +140,44 @@ If you are unsure, start with Claude or ChatGPT, then optimize for speed/cost.
 
 ---
 
+## Fit Recommendation Rubric
+
+Resume Tailor now adds a second recommendation after Step 4 so users know whether resume rewriting is likely to materially change ATS response odds.
+
+### Decision Thresholds
+
+| Score band | Critical gap count* | Recommendation | Expected rewrite impact |
+|---|---:|---|---|
+| 82–100 | 0 | Apply now, customization optional | Low |
+| 68–81 | 0–1 | Apply, do a targeted resume pass | Moderate |
+| 50–67 | any | Customize before applying | High |
+| 0–49 | any | Not a strong fit right now | Very high gap risk |
+
+\* Critical gap count is estimated from gap bullets that include terms like `must`, `required`, `missing`, `lack`, `no experience`, or `not demonstrated`.
+
+### Pseudocode
+
+```text
+critical_gaps = count(gap_bullets matching critical_gap_keywords)
+
+if score >= 82 and critical_gaps == 0:
+  recommendation = "Apply now. Resume customization is optional."
+  impact = "Low"
+elif score >= 68 and critical_gaps <= 1:
+  recommendation = "Apply, but do a targeted resume pass first."
+  impact = "Moderate"
+elif score >= 50:
+  recommendation = "Customize before applying."
+  impact = "High"
+else:
+  recommendation = "Not a strong fit right now."
+  impact = "Very high gap risk"
+```
+
+Use this as directional guidance, not a guarantee.
+
+---
+
 ## Troubleshooting
 
 ### API call errors / retries
@@ -137,7 +186,7 @@ If you are unsure, start with Claude or ChatGPT, then optimize for speed/cost.
 - Switch providers if needed
 
 ### URL fetch does not work
-Some sites block extraction/proxy flows.  
+Some sites block extraction/proxy flows, so URL auto-fill is best effort.  
 Fallback: copy/paste the job description directly in Step 2.
 
 ### Uploaded PDF text looks messy
