@@ -3,12 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resume Tailor — Career Launch Suite</title>
-<meta name="description" content="Resume Tailor — AI-assisted resume, cover letter, and LinkedIn outreach generator. Bring your own API key. Free to use.">
-<meta property="og:title" content="Resume Tailor by Michael Findling">
-<meta property="og:description" content="From job posting to full application pack in under 5 minutes.">
-<meta property="og:url" content="https://tools.gtmstack.pro">
-<meta name="robots" content="index, follow">
+<title>Career Launch Suite — Resume Tailor + Outreach Studio</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script>/* docx@8.5.0 bundled inline */
 var docx = function(exports) {
@@ -22387,66 +22382,18 @@ var __async = (__this, __arguments, generator) => {
     color: #fff;
     border-color: var(--navy);
   }
-
-  body[data-build="hosted"] .hosted-pref-row { flex-direction: column; align-items: flex-start; gap: 8px; }
-  .mode-select-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-  .btn-key-help-mini {
-    font-size: 12px;
-    font-weight: 600;
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--navy);
-    background: #fff;
-    color: var(--navy);
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-  }
-  .btn-key-help-mini:hover { background: var(--navy); color: #fff; }
-  .hosted-key-info {
-    font-size: 13px;
-    line-height: 1.55;
-    color: var(--text-mid);
-    margin: 12px 0 10px;
-    max-width: 52rem;
-  }
-  .key-lock { cursor: help; font-size: 14px; }
-  .hosted-download-cta {
-    margin-top: 18px;
-    padding: 16px 18px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: linear-gradient(135deg, #faf9f6 0%, #f0ede6 100%);
-  }
-  .hosted-download-cta-inner {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 14px;
-    justify-content: space-between;
-  }
-  .hosted-download-text { flex: 1; min-width: 200px; }
-  .hosted-download-text strong { display: block; color: var(--navy); margin-bottom: 4px; font-size: 15px; }
-  .hosted-download-text span { font-size: 13px; color: var(--text-mid); }
-  .btn-download-local {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 18px;
+  .local-version-notice {
+    margin-top: 14px;
+    padding: 12px 14px;
     border-radius: 10px;
-    background: var(--navy);
-    color: #fff !important;
-    font-weight: 700;
+    border: 1px solid var(--border);
+    background: #f0f7f2;
     font-size: 13px;
-    text-decoration: none;
-    border: none;
-    white-space: nowrap;
+    color: #2d5c3e;
   }
-  .btn-download-local:hover { background: var(--navy-light); }
-  .hosted-key-card { padding: 8px 0; }
-  .hosted-key-steps { margin: 10px 0 12px 18px; line-height: 1.55; font-size: 14px; color: var(--text); }
 </style>
 </head>
-<body data-build="hosted">
+<body data-build="local">
 
 <header class="site-header">
   <nav class="main-tab-bar" aria-label="Main navigation">
@@ -22490,7 +22437,7 @@ var __async = (__this, __arguments, generator) => {
         <button type="button" class="help-nav-item" data-help-section="pro-tips" onclick="openHelpModal('pro-tips')"><div class="help-nav-top"><span class="help-nav-emoji">💡</span><span class="help-nav-title">Pro Tips</span></div><div class="help-nav-sub">Getting the most out of every application</div></button>
       </div>
       <div class="privacy-note-box">
-        <strong>Your information stays private.</strong><br>No one is tracking you here. We do not save your resume, job details, or personal info on a Resume Tailor server.<br><br>Your text is only sent to the AI service you choose in Step 1 (Claude, OpenAI, or Gemini) so it can generate results. Your local history stays on your own browser on your own device.
+        <strong>Your information stays private.</strong><br>No one is tracking you here. We do not save your resume, job details, or personal info on a Resume Tailor server.<br><br>Your text is only sent to the AI service you choose in Step 1 (Claude, OpenAI, Gemini, or Ollama) so it can generate results. Your local history stays on your own browser on your own device.
       </div>
     </div>
   </aside>
@@ -22520,44 +22467,49 @@ var __async = (__this, __arguments, generator) => {
     </div>
     <div class="step-body">
     <h2 class="step-headline">Step 1 — Your Secret Identity Key</h2>
-    <p class="step-sub">This key unlocks the AI provider you picked. By default it clears when you close the tab. It is only used for your own requests.</p>
-    <div class="local-pref-row hosted-pref-row">
-      <label><input type="checkbox" id="rememberKeyHosted" onchange="toggleRememberKeyHosted()"> Remember my key on this device (stored in browser only, never transmitted)</label>
-      <label><input type="checkbox" id="rememberLocalToggle" onchange="toggleRememberLocal()"> Remember my resume text on this device only</label>
+    <p class="step-sub">This key unlocks the AI provider you picked. It stays in your browser session and is only used for your own requests.</p>
+    <div class="local-pref-row">
+      <label><input type="checkbox" id="rememberLocalToggle" checked onchange="toggleRememberLocal()"> Remember API key + resume on this device only</label>
       <button type="button" class="local-pref-clear" id="clearLocalBtn" onclick="clearRememberedLocalData()" style="display:none;">Clear saved local data</button>
     </div>
     <div class="api-bar" style="padding:0;border:none;">
-      <div class="mode-toggle mode-toggle-hosted">
+      <div class="mode-toggle">
         <label for="modeSelect" style="font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-light);font-weight:600;">AI Provider</label>
-        <div class="mode-select-row">
         <select id="modeSelect" onchange="setMode(this.value)">
           <option value="claude">Claude (Anthropic)</option>
           <option value="chatgpt">ChatGPT (gpt-4o)</option>
           <option value="gemini">Gemini (gemini-1.5-flash)</option>
+          <option value="ollama">Ollama (local)</option>
         </select>
-        <button type="button" class="btn-key-help-mini" onclick="openHostedKeyGuideModal()" title="How do I get a key?">? How do I get a key</button>
-        </div>
       </div>
-      <p class="hosted-key-info">ℹ️ You bring your own API key — it stays in your browser and is never sent to our servers. We never see it. Cost per full generation: ~$0.01–0.02. Gemini has a free tier if you want to start at zero cost.</p>
-      <div id="claudeFields" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <div id="claudeFields" style="display:flex;align-items:center;gap:14px;">
         <label id="apiKeyLabel">API Key</label>
-        <span class="key-lock" title="Sent directly to your chosen provider from your browser. We never receive it." aria-label="Sent directly to your chosen provider from your browser. We never receive it.">🔒</span>
-        <input type="password" id="apiKey" placeholder="Paste your API key here..." oninput="updateApiStatus(); persistHostedApiKey();" autocomplete="off" />
-        <a id="getKeyLink" href="api-keys.html" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--accent-2);text-decoration:none;">API key guide</a>
+        <input type="password" id="apiKey" placeholder="Paste your API key here..." oninput="updateApiStatus()" />
+        <a id="getKeyLink" href="./docs/API_KEYS.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--accent-2);text-decoration:none;">Get a key</a>
         <span class="api-status unset" id="apiStatus">Not set</span>
       </div>
-    </div>
-    <div class="hosted-download-cta">
-      <div class="hosted-download-cta-inner">
-        <div class="hosted-download-icon" aria-hidden="true">🖥️</div>
-        <div class="hosted-download-text">
-          <strong>Want to run this locally with free offline AI?</strong>
-          <span>Download the full version with Ollama support built in. No internet required after setup.</span>
-        </div>
-        <a class="btn-download-local" href="resume-tailor-local.html" download="resume-tailor-local.html">Download v1.0</a>
+      <div class="ollama-fields" id="ollamaFields">
+        <label>Model</label>
+        <select id="ollamaModel">
+          <option value="mistral-nemo" selected>mistral-nemo (Recommended)</option>
+          <option value="llama3.1:8b">llama3.1:8b</option>
+          <option value="qwen2.5:14b">qwen2.5:14b</option>
+          <option value="llama3.1:70b">llama3.1:70b</option>
+          <option value="gemma3:12b">gemma3:12b</option>
+          <option value="mistral:7b">mistral:7b</option>
+        </select>
+        <label>Host</label>
+        <input type="text" id="ollamaHost" value="http://localhost:11434" style="max-width:220px;" />
+        <button class="ollama-setup-link" type="button" onclick="openOllamaSetupModal()">📋 New to Ollama? Setup guide →</button>
+        <div class="ollama-recommendation">💡 Recommended: mistral-nemo or llama3.1:8b for best results. Models smaller than 7B parameters often cannot follow the structured output format this tool requires.<br><br>Pull a model: open your terminal and run:<br><code>ollama pull mistral-nemo</code></div>
+        <span class="ollama-note">Requires: python -m http.server (not file://)</span>
+        <span class="api-status set" id="ollamaStatus">Local</span>
       </div>
     </div>
-    <p class="step-sub" style="margin-top:10px;">More detail: <a href="api-keys.html" target="_blank" rel="noopener noreferrer">standalone API key guide</a> · <a href="./docs/API_KEYS.md" target="_blank" rel="noopener noreferrer">Markdown guide</a></p>
+    <div class="local-version-notice">
+      <p>You are running the local version. All data stays on your machine.</p>
+    </div>
+    <p class="step-sub" style="margin-top:10px;">Need help finding keys? <a href="./docs/API_KEYS.md" target="_blank" rel="noopener noreferrer">Open the no-jargon API key guide</a></p>
     <div class="step-actions">
       <button class="btn-next" id="step1ContinueBtn" onclick="completeStep(1); goToStep(2);" disabled><span class="label-full">Nice — continue to Step 2</span><span class="label-short">Continue to Step 2</span></button>
     </div>
@@ -22891,7 +22843,7 @@ var __async = (__this, __arguments, generator) => {
   </div>
 </div>
 
-<footer>Hosted version · No data stored · Keys stay in your browser · <a href="resume-tailor-local.html" download="resume-tailor-local.html">Download local version with Ollama support</a> · Built by <a href="https://linkedin.com/in/michaelfindling" target="_blank" rel="noopener noreferrer">Michael Findling</a> · <a href="https://gtmstack.pro" target="_blank" rel="noopener noreferrer">gtmstack.pro</a> · <a href="#" target="_blank" rel="noopener noreferrer">⭐ Star on GitHub</a><div class="footer-help">Need help? Reach out on <a href="https://www.linkedin.com/in/michaelfindling/" target="_blank" rel="noopener noreferrer">LinkedIn</a> or <a href="mailto:cv@gtmstack.pro">email (cv at gtmstack.pro)</a>.</div></footer>
+<footer>Local version · All data stays on your machine · Built by <a href="https://linkedin.com/in/michaelfindling" target="_blank" rel="noopener noreferrer">Michael Findling</a> · <a href="https://gtmstack.pro" target="_blank" rel="noopener noreferrer">gtmstack.pro</a> · <a href="#" target="_blank" rel="noopener noreferrer">⭐ Star on GitHub</a><div class="footer-help">Need help? Reach out on <a href="https://www.linkedin.com/in/michaelfindling/" target="_blank" rel="noopener noreferrer">LinkedIn</a> or <a href="mailto:cv@gtmstack.pro">email (cv at gtmstack.pro)</a>.</div></footer>
 
 <div class="help-modal" id="helpModal" onclick="closeHelpModalOnBackdrop(event)">
   <div class="help-dialog-read" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
@@ -22904,14 +22856,43 @@ var __async = (__this, __arguments, generator) => {
   </div>
 </div>
 
-<div class="help-modal hosted-key-guide-modal" id="hostedKeyGuideModal" onclick="closeHostedKeyGuideOnBackdrop(event)">
-  <div class="help-dialog-read hosted-key-guide-dialog" role="dialog" aria-modal="true" aria-labelledby="hostedKeyGuideTitle">
-    <div class="help-legend-read-head">
-      <h2 class="help-title" id="hostedKeyGuideTitle">How do I get a key?</h2>
-      <button type="button" class="help-close" onclick="closeHostedKeyGuideModal()" aria-label="Close">×</button>
+<div class="ollama-setup-modal" id="ollamaSetupModal" onclick="closeOllamaSetupOnBackdrop(event)">
+  <div class="ollama-setup-dialog" role="dialog" aria-modal="true" aria-labelledby="ollamaSetupTitle">
+    <div class="ollama-setup-head">
+      <div>
+        <h3 id="ollamaSetupTitle">Setting Up Ollama</h3>
+        <p>Free, local AI — no API key needed. One-time setup takes about 10 minutes.</p>
+      </div>
+      <button class="ollama-setup-close" onclick="closeOllamaSetupModal()" aria-label="Close Ollama setup">×</button>
     </div>
-    <div class="help-content" id="hostedKeyGuideContent"></div>
-    <div class="help-footer">Keys are created on the provider’s site and pasted here.</div>
+    <div class="ollama-setup-body">
+      <div class="ollama-left">
+        <div class="ollama-col-title">Will Ollama work on my machine?</div>
+        <button class="machine-option" data-machine="a" onclick="selectMachineOption('a')">🍎 Apple Silicon Mac (M1, M2, M3, or M4)</button>
+        <button class="machine-option" data-machine="b" onclick="selectMachineOption('b')">🖥️ Windows or Linux with a dedicated GPU</button>
+        <button class="machine-option" data-machine="c" onclick="selectMachineOption('c')">💻 Any machine with 16GB+ RAM, no dedicated GPU</button>
+        <button class="machine-option" data-machine="d" onclick="selectMachineOption('d')">❓ I'm not sure / older machine</button>
+        <div class="machine-result" id="machineResult"></div>
+      </div>
+      <div class="ollama-right">
+        <div class="ollama-col-title">Step-by-step setup</div>
+        <div class="checklist-item" id="setupStep1"><div class="checklist-head"><span class="check-visual" onclick="toggleSetupStep(1)">✓</span><strong>Step 1 — Download Ollama</strong></div><p>Go to ollama.com and download the installer for your OS. Install it like any normal application.</p><a class="checklist-link" href="https://ollama.com" target="_blank" rel="noopener noreferrer">Go to ollama.com →</a></div>
+        <div class="checklist-item" id="setupStep2"><div class="checklist-head"><span class="check-visual" onclick="toggleSetupStep(2)">✓</span><strong>Step 2 — Open your terminal</strong></div><p>Mac: Press Cmd+Space, type Terminal, press Enter<br>Windows: Press Windows+R, type cmd, press Enter<br>Linux: You know what to do 😄</p></div>
+        <div class="checklist-item" id="setupStep3"><div class="checklist-head"><span class="check-visual" onclick="toggleSetupStep(3)">✓</span><strong>Step 3 — Pull a model</strong></div><p>In your terminal, type this and press Enter. This downloads ~7GB. Takes a few minutes. Do it once.</p><div class="cmd-block"><span>ollama pull mistral-nemo</span><button class="cmd-copy" onclick="copyCommand(this, 'ollama pull mistral-nemo')">Copy</button></div></div>
+        <div class="checklist-item" id="setupStep4"><div class="checklist-head"><span class="check-visual" onclick="toggleSetupStep(4)">✓</span><strong>Step 4 — Start Ollama</strong></div><p>In your terminal, type this. Leave this window open while you use the tool.</p><div class="cmd-block"><span>ollama serve</span><button class="cmd-copy" onclick="copyCommand(this, 'ollama serve')">Copy</button></div></div>
+        <div class="checklist-item" id="setupStep5"><div class="checklist-head"><span class="check-visual" onclick="toggleSetupStep(5)">✓</span><strong>Step 5 — Use a local server (important)</strong></div><p>Because of browser security rules, open a second terminal, navigate to the folder where index.html lives, and run:</p><div class="cmd-block"><span>python -m http.server 8080</span><button class="cmd-copy" onclick="copyCommand(this, 'python -m http.server 8080')">Copy</button></div><p style="margin-top:6px;">Then open: http://localhost:8080 (not file://).</p></div>
+        <div class="checklist-item" id="setupStep6"><div class="checklist-head"><span class="check-visual" onclick="toggleSetupStep(6)">✓</span><strong>Step 6 — You are ready</strong></div><p>Come back here, select Ollama, pick mistral-nemo from the dropdown, and you are good to go.</p></div>
+        <div class="setup-note">⚡ Quick check: if you see "http://localhost:11434" in the Host field above and Ollama is running, you are connected and ready.</div>
+        <div class="trouble-wrap">
+          <button class="trouble-toggle" onclick="toggleTroubleshooting()">Having trouble? ▾</button>
+          <div class="trouble-content" id="troubleContent">
+            <div class="trouble-item"><button onclick="toggleTroubleItem(this)">Connection refused / can't reach Ollama</button><div class="trouble-item-body">Ollama is not running. Open a terminal and run:<div class="cmd-block" style="margin-top:8px;"><span>ollama serve</span><button class="cmd-copy" onclick="copyCommand(this, 'ollama serve')">Copy</button></div></div></div>
+            <div class="trouble-item"><button onclick="toggleTroubleItem(this)">Model not found error</button><div class="trouble-item-body">The model is not downloaded yet. Run:<div class="cmd-block" style="margin-top:8px;"><span>ollama pull mistral-nemo</span><button class="cmd-copy" onclick="copyCommand(this, 'ollama pull mistral-nemo')">Copy</button></div></div></div>
+            <div class="trouble-item"><button onclick="toggleTroubleItem(this)">Could not parse model response</button><div class="trouble-item-body">The model is not following the output format. Switch to mistral-nemo or llama3.1:8b — these are most reliable. Avoid models smaller than 7B parameters.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -22919,68 +22900,6 @@ var __async = (__this, __arguments, generator) => {
 // Pre-loaded base resume
 const DEFAULT_RESUME = ``;
 
-const IS_HOSTED = document.body.dataset.build === 'hosted';
-const HOSTED_SESSION_KEY = 'resumeTailor_hosted_apiKey_sess';
-const HOSTED_PERSIST_KEY = 'resumeTailor_hosted_apiKey_persist';
-const HOSTED_REMEMBER_KEY = 'resumeTailor_hosted_rememberKey_flag';
-const HOSTED_RESUME_PREFS = 'resumeTailor_hosted_resumePrefs_v1';
-
-function persistHostedApiKey() {
-  if (!IS_HOSTED) return;
-  const keyEl = document.getElementById('apiKey');
-  const remember = document.getElementById('rememberKeyHosted')?.checked;
-  const key = keyEl ? keyEl.value : '';
-  try {
-    sessionStorage.setItem(HOSTED_SESSION_KEY, key);
-    if (remember) {
-      localStorage.setItem(HOSTED_PERSIST_KEY, key);
-      localStorage.setItem(HOSTED_REMEMBER_KEY, '1');
-    } else {
-      localStorage.removeItem(HOSTED_PERSIST_KEY);
-      localStorage.removeItem(HOSTED_REMEMBER_KEY);
-    }
-  } catch {}
-}
-
-function applyHostedApiKeyOnLoad() {
-  if (!IS_HOSTED) return;
-  const remember = localStorage.getItem(HOSTED_REMEMBER_KEY) === '1';
-  const rk = document.getElementById('rememberKeyHosted');
-  if (rk) rk.checked = remember;
-  let key = '';
-  if (remember) key = localStorage.getItem(HOSTED_PERSIST_KEY) || '';
-  else key = sessionStorage.getItem(HOSTED_SESSION_KEY) || '';
-  const keyEl = document.getElementById('apiKey');
-  if (keyEl && key) keyEl.value = key;
-}
-
-function toggleRememberKeyHosted() {
-  persistHostedApiKey();
-  updateRememberUi();
-}
-
-function openHostedKeyGuideModal() {
-  const modal = document.getElementById('hostedKeyGuideModal');
-  const content = document.getElementById('hostedKeyGuideContent');
-  if (!modal || !content) return;
-  const mode = currentMode || 'claude';
-  const cards = {
-    claude: `<div class="hosted-key-card"><h3>Claude (Anthropic)</h3><ol class="hosted-key-steps"><li>Open console.anthropic.com</li><li>Go to API Keys</li><li>Create Key</li><li>Paste it in Resume Tailor</li></ol><a class="checklist-link" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer">Open API Keys →</a></div>`,
-    chatgpt: `<div class="hosted-key-card"><h3>ChatGPT (OpenAI)</h3><ol class="hosted-key-steps"><li>Open platform.openai.com</li><li>Go to API Keys</li><li>Create Key</li><li>Paste it here</li></ol><a class="checklist-link" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">Open API Keys →</a></div>`,
-    gemini: `<div class="hosted-key-card"><h3>Gemini (Google)</h3><ol class="hosted-key-steps"><li>Open aistudio.google.com</li><li>Get API Key</li><li>Create in Google AI Studio</li><li>Paste it here</li></ol><a class="checklist-link" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Get API Key →</a></div>`
-  };
-  content.innerHTML = cards[mode] || cards.claude;
-  modal.classList.add('visible');
-}
-
-function closeHostedKeyGuideModal() {
-  const modal = document.getElementById('hostedKeyGuideModal');
-  if (modal) modal.classList.remove('visible');
-}
-
-function closeHostedKeyGuideOnBackdrop(event) {
-  if (event.target && event.target.id === 'hostedKeyGuideModal') closeHostedKeyGuideModal();
-}
 
 function updateApiStatus() {
   const key = document.getElementById('apiKey').value.trim();
@@ -23046,25 +22965,6 @@ function loadLocalPrefs() {
 }
 
 function persistLocalPrefsFromForm() {
-  if (IS_HOSTED) {
-    persistHostedApiKey();
-    const rememberToggle = document.getElementById('rememberLocalToggle');
-    if (!rememberToggle || !rememberToggle.checked) {
-      try { localStorage.removeItem(HOSTED_RESUME_PREFS); } catch {}
-      return;
-    }
-    const payload = {
-      rememberResume: true,
-      currentMode: currentMode,
-      baseResume: document.getElementById('baseResume')?.value || ''
-    };
-    try {
-      localStorage.setItem(HOSTED_RESUME_PREFS, JSON.stringify(payload));
-    } catch (e) {
-      setStatus('Could not save resume on this device. Browser storage may be full.', 'warning');
-    }
-    return;
-  }
   const rememberToggle = document.getElementById('rememberLocalToggle');
   if (!rememberToggle || !rememberToggle.checked) return;
   const payload = {
@@ -23085,31 +22985,13 @@ function persistLocalPrefsFromForm() {
 function updateRememberUi() {
   const rememberToggle = document.getElementById('rememberLocalToggle');
   const clearBtn = document.getElementById('clearLocalBtn');
-  if (!clearBtn) return;
-  if (IS_HOSTED) {
-    const rk = document.getElementById('rememberKeyHosted')?.checked;
-    const rr = rememberToggle?.checked;
-    clearBtn.style.display = (rk || rr) ? 'inline-flex' : 'none';
-    return;
-  }
-  if (!rememberToggle) return;
+  if (!rememberToggle || !clearBtn) return;
   clearBtn.style.display = rememberToggle.checked ? 'inline-flex' : 'none';
 }
 
 function toggleRememberLocal() {
   const rememberToggle = document.getElementById('rememberLocalToggle');
   if (!rememberToggle) return;
-  if (IS_HOSTED) {
-    if (rememberToggle.checked) {
-      persistLocalPrefsFromForm();
-      setStatus('Resume text saved locally on this device.', 'info');
-    } else {
-      try { localStorage.removeItem(HOSTED_RESUME_PREFS); } catch {}
-      setStatus('Resume remember is off.', 'info');
-    }
-    updateRememberUi();
-    return;
-  }
   if (rememberToggle.checked) {
     persistLocalPrefsFromForm();
     setStatus('Saved locally on this device. You can clear it anytime.', 'info');
@@ -23121,25 +23003,6 @@ function toggleRememberLocal() {
 }
 
 function clearRememberedLocalData() {
-  if (IS_HOSTED) {
-    if (!confirm('Clear saved resume and key preferences on this device?')) return;
-    try {
-      localStorage.removeItem(HOSTED_RESUME_PREFS);
-      localStorage.removeItem(HOSTED_PERSIST_KEY);
-      localStorage.removeItem(HOSTED_REMEMBER_KEY);
-      sessionStorage.removeItem(HOSTED_SESSION_KEY);
-    } catch {}
-    const rememberToggle = document.getElementById('rememberLocalToggle');
-    if (rememberToggle) rememberToggle.checked = false;
-    const rk = document.getElementById('rememberKeyHosted');
-    if (rk) rk.checked = false;
-    const keyEl = document.getElementById('apiKey');
-    if (keyEl) keyEl.value = '';
-    updateRememberUi();
-    updateApiStatus();
-    setStatus('Saved preferences cleared for this browser.', 'info');
-    return;
-  }
   if (!confirm('Clear saved API key and resume on this device?')) return;
   try { localStorage.removeItem(LOCAL_PREFS_KEY); } catch {}
   const rememberToggle = document.getElementById('rememberLocalToggle');
@@ -23149,35 +23012,6 @@ function clearRememberedLocalData() {
 }
 
 function applyLocalPrefsOnLoad() {
-  if (IS_HOSTED) {
-    applyHostedApiKeyOnLoad();
-    const raw = localStorage.getItem(HOSTED_RESUME_PREFS);
-    const rememberToggle = document.getElementById('rememberLocalToggle');
-    if (!raw || !rememberToggle) {
-      if (rememberToggle) rememberToggle.checked = false;
-      updateRememberUi();
-      return;
-    }
-    try {
-      const prefs = JSON.parse(raw);
-      if (!prefs || !prefs.rememberResume) {
-        rememberToggle.checked = false;
-        updateRememberUi();
-        return;
-      }
-      rememberToggle.checked = true;
-      if (prefs.currentMode) {
-        currentMode = prefs.currentMode;
-        const ms = document.getElementById('modeSelect');
-        if (ms) ms.value = currentMode;
-      }
-      if (typeof prefs.baseResume === 'string') document.getElementById('baseResume').value = prefs.baseResume;
-    } catch {
-      rememberToggle.checked = false;
-    }
-    updateRememberUi();
-    return;
-  }
   const prefs = loadLocalPrefs();
   const rememberToggle = document.getElementById('rememberLocalToggle');
   if (!prefs || !prefs.rememberLocal) {
@@ -23189,10 +23023,7 @@ function applyLocalPrefsOnLoad() {
   if (prefs.currentMode) currentMode = prefs.currentMode;
   if (typeof prefs.apiKey === 'string') document.getElementById('apiKey').value = prefs.apiKey;
   if (typeof prefs.baseResume === 'string') document.getElementById('baseResume').value = prefs.baseResume;
-  if (typeof prefs.ollamaHost === 'string' && prefs.ollamaHost) {
-    const oh = document.getElementById('ollamaHost');
-    if (oh) oh.value = prefs.ollamaHost;
-  }
+  if (typeof prefs.ollamaHost === 'string' && prefs.ollamaHost) document.getElementById('ollamaHost').value = prefs.ollamaHost;
   if (typeof prefs.ollamaModel === 'string' && prefs.ollamaModel) {
     const modelSelect = document.getElementById('ollamaModel');
     if (modelSelect && Array.from(modelSelect.options).some(o => o.value === prefs.ollamaModel)) {
@@ -23239,6 +23070,7 @@ const HELP_SECTIONS = {
             <tr><td class="help-provider">Claude (Anthropic)</td><td>Best output quality</td><td><span class="no-badge">No</span></td><td>console.anthropic.com</td></tr>
             <tr><td class="help-provider">ChatGPT (OpenAI)</td><td>Widely familiar</td><td><span class="no-badge">No</span></td><td>platform.openai.com</td></tr>
             <tr><td class="help-provider">Gemini (Google)</td><td>Budget-conscious</td><td><span class="yes-badge">Yes</span></td><td>aistudio.google.com</td></tr>
+            <tr><td class="help-provider">Ollama (Local)</td><td>Free, offline</td><td><span class="yes-badge">Yes</span></td><td>ollama.com</td></tr>
           </tbody>
         </table>
         <div class="help-tip"><strong>What does it cost per use?</strong><br>A full generation (resume + cover letter + LinkedIn messages) costs approximately $0.01–0.02 with Claude. A fit-check only costs about $0.002.</div>
@@ -23959,11 +23791,8 @@ async function callModel(userPrompt, systemPrompt = '', options = {}) {
     return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
   }
 
-  const ollamaHostEl = document.getElementById('ollamaHost');
-  const ollamaModelEl = document.getElementById('ollamaModel');
-  if (!ollamaHostEl || !ollamaModelEl) throw new Error('Ollama is not available in this build.');
-  const host  = ollamaHostEl.value.trim().replace(/\/$/, '');
-  const model = ollamaModelEl.value;
+  const host  = document.getElementById('ollamaHost').value.trim().replace(/\/$/, '');
+  const model = document.getElementById('ollamaModel').value;
   let response;
   try {
     response = await fetch(`${host}/api/chat`, {
@@ -24505,33 +24334,23 @@ Return ONLY valid JSON: {"company":"...","title":"...","description":"..."}`;
 let currentMode = 'claude';
 
 function setMode(mode) {
-  if (typeof IS_HOSTED !== 'undefined' && IS_HOSTED && mode === 'ollama') mode = 'claude';
   const providerChanged = currentMode !== mode;
   currentMode = mode;
   if (providerChanged) {
+    // Fit check context is provider-specific; clear when provider changes.
     lastFitCheckProviderMode = null;
   }
   document.getElementById('modeSelect').value = mode;
-  const claudeFields = document.getElementById('claudeFields');
-  if (claudeFields) claudeFields.style.display = mode === 'ollama' ? 'none' : 'flex';
-  const ollamaFields = document.getElementById('ollamaFields');
-  if (ollamaFields) ollamaFields.classList.toggle('visible', mode === 'ollama');
-  const apiKeyLabel = document.getElementById('apiKeyLabel');
-  if (apiKeyLabel) {
-    apiKeyLabel.textContent =
-      mode === 'claude' ? 'Anthropic API Key' :
-      mode === 'chatgpt' ? 'OpenAI API Key' :
-      mode === 'gemini' ? 'Google API Key' : 'API Key';
-  }
+  document.getElementById('claudeFields').style.display = mode === 'ollama' ? 'none' : 'flex';
+  document.getElementById('ollamaFields').classList.toggle('visible', mode === 'ollama');
+  document.getElementById('apiKeyLabel').textContent =
+    mode === 'claude' ? 'Anthropic API Key' :
+    mode === 'chatgpt' ? 'OpenAI API Key' :
+    mode === 'gemini' ? 'Google API Key' : 'API Key';
   const link = document.getElementById('getKeyLink');
   if (link) {
-    if (typeof IS_HOSTED !== 'undefined' && IS_HOSTED) {
-      link.href = 'api-keys.html';
-      link.textContent = 'API key guide';
-    } else {
-      link.href = getProviderKeyLink(mode);
-      link.textContent = mode === 'ollama' ? 'Ollama setup docs' : `Get a key for ${providerName(mode)}`;
-    }
+    link.href = getProviderKeyLink(mode);
+    link.textContent = mode === 'ollama' ? 'Ollama setup docs' : `Get a key for ${providerName(mode)}`;
   }
   updateApiStatus();
   updateAccordionMeta();
@@ -24918,8 +24737,8 @@ window.addEventListener('load', () => {
     updateAccordionMeta();
     persistLocalPrefsFromForm();
   });
-  document.getElementById('ollamaHost')?.addEventListener('input', persistLocalPrefsFromForm);
-  document.getElementById('ollamaModel')?.addEventListener('change', persistLocalPrefsFromForm);
+  document.getElementById('ollamaHost').addEventListener('input', persistLocalPrefsFromForm);
+  document.getElementById('ollamaModel').addEventListener('change', persistLocalPrefsFromForm);
   updateAccordionMeta();
   setHelpSection('getting-started', true);
   initOutreachStudioChips();
@@ -24932,7 +24751,6 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     closeHelpModal();
     closeOllamaSetupModal();
-    closeHostedKeyGuideModal();
   }
 });
 
