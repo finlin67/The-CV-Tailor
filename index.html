@@ -9,6 +9,8 @@
 <meta property="og:description" content="From job posting to full application pack in under 5 minutes.">
 <meta property="og:url" content="https://tools.gtmstack.pro">
 <meta name="robots" content="index, follow">
+<link rel="icon" href="docs/images/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="docs/images/favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script>/* docx@8.5.0 bundled inline */
 var docx = function(exports) {
@@ -21080,6 +21082,14 @@ var __async = (__this, __arguments, generator) => {
   .status-msg.warning { background: #fff8e9; color: #5d4d1e; border: 1px solid #e8d49a; display: block; }
   .status-msg .status-title { font-weight: 600; margin-bottom: 4px; }
   .status-inline-actions { margin-top: 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .dirty-warning {
+    display: none;
+    margin: -6px 0 14px;
+    color: #7a6425;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .dirty-warning.visible { display: block; }
   .btn-inline-retry {
     border: 1px solid var(--border);
     background: #fff;
@@ -21131,6 +21141,14 @@ var __async = (__this, __arguments, generator) => {
     width: 0%;
     transition: width 0.4s ease;
   }
+  .progress-status {
+    display: none;
+    margin-top: 6px;
+    color: rgba(255,255,255,0.82);
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .progress-bar-wrap.visible + .progress-status { display: block; }
 
   /* Tips */
   .tip-box {
@@ -22635,17 +22653,19 @@ var __async = (__this, __arguments, generator) => {
       <label>Resume Text<span class="req">*</span></label>
       <textarea id="baseResume" class="tall" style="min-height:460px" placeholder="Paste your full resume here..."></textarea>
     </div>
-    <div id="statusMsg" class="status-msg"></div>
-    <button class="btn-generate" id="generateBtn" onclick="runFitCheck()">
+    <div id="statusMsg" class="status-msg" role="status" aria-live="polite" aria-atomic="true"></div>
+    <div id="inputDirtyWarning" class="dirty-warning" role="status" aria-live="polite">Inputs changed: Analysis may be out of date.</div>
+    <button class="btn-generate" id="generateBtn" onclick="runFitCheck()" aria-controls="statusMsg progressStatus fitLabel">
       <div class="spinner"></div>
       <span class="btn-text">🎯 Analyze Fit</span>
     </button>
     <div class="step-actions">
       <button class="btn-back" onclick="goToStep(2)">← Back to Step 2</button>
     </div>
-    <div class="progress-bar-wrap" id="progressWrap">
+    <div class="progress-bar-wrap" id="progressWrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-describedby="progressStatus">
       <div class="progress-bar" id="progressBar"></div>
     </div>
+    <div class="progress-status" id="progressStatus" role="status" aria-live="polite" aria-atomic="true"></div>
     </div>
   </section>
 
@@ -22670,8 +22690,8 @@ var __async = (__this, __arguments, generator) => {
             <span class="score-denom">/100</span>
           </div>
           <div class="fit-label-wrap">
-            <div class="fit-label" id="fitLabel">Analyzing...</div>
-            <div class="fit-sublabel" id="fitSublabel"></div>
+          <div class="fit-label" id="fitLabel" role="status" aria-live="polite" aria-atomic="true">Analyzing...</div>
+          <div class="fit-sublabel" id="fitSublabel" aria-live="polite"></div>
           </div>
         </div>
         <div class="fit-bullets" id="fitBullets"></div>
@@ -22693,7 +22713,7 @@ var __async = (__this, __arguments, generator) => {
         </div>
         <div class="fit-actions">
           <button class="btn-back" onclick="goToStep(3)">← Back to Step 3</button>
-          <button class="btn-continue" id="continueBtn" onclick="proceedGenerate()">
+          <button class="btn-continue" id="continueBtn" onclick="proceedGenerate()" aria-controls="statusMsg progressStatus">
             <div class="spinner"></div>
             <span class="continue-text">✦ Looks good — build my materials</span>
           </button>
@@ -23276,7 +23296,7 @@ const HELP_SECTIONS = {
       <div class="help-section">
         <div class="comms-list">
           <div class="comms-item"><div class="comms-meta">📄 <strong>Resume</strong> — tailored to the JD, ATS-optimized</div><div class="mini-badges"><span class="mini-badge">Copy</span><span class="mini-badge">Download</span></div></div>
-          <div class="comms-item"><div class="comms-meta">✉️ <strong>Cover Letter</strong> — company-specific hook, under 380 words</div><div class="mini-badges"><span class="mini-badge">Copy</span><span class="mini-badge">Download</span></div></div>
+          <div class="comms-item"><div class="comms-meta">✉️ <strong>Cover Letter</strong> — company-specific hook, under 250 words</div><div class="mini-badges"><span class="mini-badge">Copy</span><span class="mini-badge">Download</span></div></div>
           <div class="comms-item"><div class="comms-meta">🔗 <strong>Connection Note</strong> — 300 characters, LinkedIn-ready</div><div class="mini-badges"><span class="mini-badge">Copy</span></div></div>
           <div class="comms-item"><div class="comms-meta">📨 <strong>Recruiter Message</strong> — InMail-style, under 150 words</div><div class="mini-badges"><span class="mini-badge">Copy</span></div></div>
           <div class="comms-item"><div class="comms-meta">🔍 <strong>Who to Reach Out To</strong> — suggested titles to find the right contacts</div><div class="mini-badges"><span class="mini-badge">Search LinkedIn</span></div></div>
@@ -23784,6 +23804,7 @@ async function handleResumeFileUpload(event) {
       }
     }
     resumeField.value = text;
+    updateInputDirtyWarning();
     updateAccordionMeta();
     if (sourceType === 'pdf') {
       setStatus(`Loaded <strong>${file.name}</strong>. Please quickly review formatting and contact details before running fit analysis — PDF extraction can reorder text. For best accuracy, paste resume text directly.`, 'warning');
@@ -23935,12 +23956,21 @@ async function callModel(userPrompt, systemPrompt = '', options = {}) {
 
   if (currentMode === 'gemini') {
     const apiKey = document.getElementById('apiKey').value.trim();
+    const body = {
+      contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
+      generationConfig: {
+        temperature: 0.3,
+        maxOutputTokens: maxTokens,
+        responseMimeType: 'application/json'
+      }
+    };
+    if (systemPrompt) {
+      body.system_instruction = { parts: [{ text: systemPrompt }] };
+    }
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: `${systemPrompt ? systemPrompt + '\n\n' : ''}${userPrompt}` }] }]
-      })
+      body: JSON.stringify(body)
     });
     if (!response.ok) {
       let message = `Gemini API error ${response.status}`;
@@ -24064,7 +24094,31 @@ async function copyOutput(id, btn) {
 }
 
 function setProgress(pct) {
-  document.getElementById('progressBar').style.width = pct + '%';
+  const bar = document.getElementById('progressBar');
+  const wrap = document.getElementById('progressWrap');
+  if (bar) bar.style.width = pct + '%';
+  if (wrap) wrap.setAttribute('aria-valuenow', String(Math.max(0, Math.min(100, Math.round(pct)))));
+}
+
+function setProgressMilestone(pct, label) {
+  setProgress(pct);
+  const status = document.getElementById('progressStatus');
+  if (status) status.textContent = label || '';
+}
+
+function startGenerationMilestones(selection) {
+  const milestones = [
+    { delay: 0, pct: 14, label: 'Analyzing Requirements...' },
+    { delay: 900, pct: 32, label: selection.resume ? 'Drafting Resume...' : 'Drafting Materials...' },
+    { delay: 2300, pct: 52, label: selection.coverLetter ? 'Writing Cover Letter...' : 'Structuring Outreach...' },
+    { delay: 3900, pct: 68, label: selection.linkedInPack ? 'Polishing Outreach...' : 'Polishing Language...' },
+    { delay: 5600, pct: 82, label: 'Finalizing JSON...' }
+  ];
+  const timers = [];
+  milestones.forEach((m) => {
+    timers.push(setTimeout(() => setProgressMilestone(m.pct, m.label), m.delay));
+  });
+  return () => timers.forEach(clearTimeout);
 }
 
 // ── Fit Check ─────────────────────────────────────────────────────
@@ -24073,7 +24127,26 @@ let fitCheckInProgress = false;
 let generationInProgress = false;
 /** Provider mode when the last successful fit check finished (for drift warning vs generation). */
 let lastFitCheckProviderMode = null;
+let lastFitInputSignature = '';
 const CRITICAL_GAP_PATTERN = /\b(must|required|requirement|missing|lack|limited|no experience|without|not demonstrated)\b/i;
+
+function getFitInputSignature() {
+  const jd = document.getElementById('jobDescription')?.value.trim() || '';
+  const resume = document.getElementById('baseResume')?.value.trim() || '';
+  return JSON.stringify({ jd, resume });
+}
+
+function updateInputDirtyWarning() {
+  const warning = document.getElementById('inputDirtyWarning');
+  if (!warning) return;
+  const isDirty = fitCheckPassed && lastFitInputSignature && getFitInputSignature() !== lastFitInputSignature;
+  warning.classList.toggle('visible', isDirty);
+}
+
+function clearFitInputSnapshot() {
+  lastFitInputSignature = '';
+  updateInputDirtyWarning();
+}
 
 function getGenerationSelection() {
   return {
@@ -24210,6 +24283,7 @@ async function runFitCheck(reanalyze = false) {
   try {
   // Reset state
   fitCheckPassed = false;
+  clearFitInputSnapshot();
   const fitPanel = document.getElementById('fitPanel');
   fitPanel.classList.add('visible');
   completeStep(3);
@@ -24227,6 +24301,7 @@ async function runFitCheck(reanalyze = false) {
 
   // Lock main generate button
   genBtn.disabled = true;
+  genBtn.setAttribute('aria-busy', 'true');
   genBtn.classList.add('loading');
 
   const fitPrompt = `You are a senior executive recruiter evaluating a candidate's resume against a job description.
@@ -24303,6 +24378,8 @@ Return ONLY a JSON object with exactly this structure:
     document.getElementById('continueBtn').disabled = false;
     fitCheckPassed = true;
     lastFitCheckProviderMode = currentMode;
+    lastFitInputSignature = getFitInputSignature();
+    updateInputDirtyWarning();
 
   } catch (err) {
     if (String(err?.message || '').includes('529: Anthropic API overloaded after retries')) {
@@ -24340,6 +24417,7 @@ Return ONLY a JSON object with exactly this structure:
     fitCheckInProgress = false;
     if (genBtn) {
       genBtn.disabled = false;
+      genBtn.removeAttribute('aria-busy');
       genBtn.classList.remove('loading');
     }
     updateAccordionMeta();
@@ -24352,12 +24430,14 @@ async function proceedGenerate() {
   if (!selection) return;
   const btn = document.getElementById('continueBtn');
   btn.disabled = true;
+  btn.setAttribute('aria-busy', 'true');
   btn.classList.add('loading');
   btn.querySelector('.continue-text').textContent = 'Generating...';
   try {
     await generate();
   } finally {
     btn.disabled = false;
+    btn.removeAttribute('aria-busy');
     btn.classList.remove('loading');
     btn.querySelector('.continue-text').textContent = '✦ Looks good — build my materials';
   }
@@ -24371,6 +24451,7 @@ function skipRole() {
   document.getElementById('jobUrl').value = '';
   setFetchStatus('', '');
   fitCheckPassed = false;
+  clearFitInputSnapshot();
   lastFitCheckProviderMode = null;
   keepStep5Open = false;
   goToStep(2);
@@ -24488,6 +24569,7 @@ Return ONLY valid JSON: {"company":"...","title":"...","description":"..."}`;
     if (parsed.company) document.getElementById('company').value = parsed.company;
     if (parsed.title)   document.getElementById('role').value    = parsed.title;
     if (parsed.description) document.getElementById('jobDescription').value = parsed.description;
+    updateInputDirtyWarning();
     updateStep2Continue();
 
     const filled = [parsed.company, parsed.title, parsed.description].filter(Boolean).length;
@@ -24572,7 +24654,7 @@ async function generate() {
 
   const progressWrap = document.getElementById('progressWrap');
   progressWrap.classList.add('visible');
-  setProgress(10);
+  setProgressMilestone(10, 'Preparing generation...');
 
   document.getElementById('resumeOutput').innerHTML = '';
   document.getElementById('coverOutput').innerHTML = '';
@@ -24586,6 +24668,8 @@ async function generate() {
   if (selection.coverLetter) selectedKeys.push('"coverLetter"');
   if (selection.linkedInPack) selectedKeys.push('"connectionNote"', '"recruiterMessage"', '"outreachTargets"');
   const systemPrompt = `You are an expert resume writer and career coach specializing in senior B2B SaaS marketing leadership. You write with precision, impact, and authenticity. You never fabricate metrics or experience — you reframe and emphasize existing achievements to align with what a specific role demands.
+
+Use a senior executive tone: concise, commercially grounded, specific, and direct. Avoid AI-isms and generic filler, including phrases like "In today's fast-paced world," "enthusiastic professional," "seasoned professional," "dynamic leader," "proven track record," and "passionate about." Do not use inflated corporate boilerplate where a concrete achievement or plain statement would be stronger.
 
 Format your response as a JSON object with ONLY these keys: ${selectedKeys.join(', ')}.
 Do not include any keys that were not requested. Return ONLY the JSON object — no preamble, no markdown fences, no commentary.`;
@@ -24610,7 +24694,7 @@ Do not include any keys that were not requested. Return ONLY the JSON object —
      Use the company's actual HQ city and state. Only append "(Remote from [Your City, State])" if the role was remote. If the role was on-site, list the HQ city and state with no remote qualifier.`);
   }
   if (selection.coverLetter) {
-    instructions.push(`${instructions.length + 1}. COVER LETTER (coverLetter): Write a compelling, authentic cover letter (max 380 words).
+    instructions.push(`${instructions.length + 1}. COVER LETTER (coverLetter): Write a compelling, authentic cover letter (250 words or less).
    - Open with a specific, genuine hook tied to ${company}'s mission or market position
    - Connect 2–3 of my strongest achievements directly to the role's key requirements
    - Show knowledge of the company's challenges or goals without being generic
@@ -24658,12 +24742,13 @@ ${instructions.join('\n\n')}
 Return ONLY valid JSON containing exactly these keys: ${selectedKeys.join(', ')}.`;
 
   currentRunContext = 'generate';
+  const stopMilestones = startGenerationMilestones(selection);
   try {
-    setProgress(25);
     const raw = await callModel(userPrompt, systemPrompt);
-    setProgress(70);
+    stopMilestones();
+    setProgressMilestone(76, 'Parsing AI response...');
 
-    setProgress(90);
+    setProgressMilestone(90, 'Polishing Outreach...');
 
     let parsed;
     try {
@@ -24721,12 +24806,13 @@ Return ONLY valid JSON containing exactly these keys: ${selectedKeys.join(', ')}
     // Save to history
     saveToHistory(company, role, selection.resume ? (parsed.resume || '') : '', selection.coverLetter ? (parsed.coverLetter || '') : '', selection.linkedInPack ? (parsed.connectionNote || '') : '', selection.linkedInPack ? (parsed.recruiterMessage || '') : '', selection.linkedInPack ? (parsed.outreachTargets || []) : []);
 
-    setProgress(100);
+    setProgressMilestone(100, 'Materials ready.');
     document.getElementById('outputPanel').classList.add('visible');
     completeStep(4);
     goToStep(5);
 
   } catch (err) {
+    stopMilestones();
     const msg = String(err.message || err);
     if (msg.includes('529: Anthropic API overloaded after retries')) {
       setStatus(`${anthropic529FinalMessageHtml()}<div class="status-inline-actions"><button class="btn-inline-retry" onclick="retryGenerationFromStatus(this)">↺ Try again</button></div>`, 'error');
@@ -24748,7 +24834,7 @@ Return ONLY valid JSON containing exactly these keys: ${selectedKeys.join(', ')}
     btn.querySelector('.btn-text').textContent = '🎯 Analyze Fit';
     setTimeout(() => {
       progressWrap.classList.remove('visible');
-      setProgress(0);
+      setProgressMilestone(0, '');
     }, 1200);
     updateAccordionMeta();
   }
@@ -24904,7 +24990,10 @@ window.addEventListener('load', () => {
   applyOutputVisibility();
   goToStep(1);
   ['company', 'role', 'jobDescription'].forEach(id => {
-    document.getElementById(id).addEventListener('input', updateStep2Continue);
+    document.getElementById(id).addEventListener('input', () => {
+      updateStep2Continue();
+      if (id === 'jobDescription') updateInputDirtyWarning();
+    });
   });
   ['genResume', 'genCover', 'genLinkedIn'].forEach((id) => {
     const el = document.getElementById(id);
@@ -24917,6 +25006,7 @@ window.addEventListener('load', () => {
   document.getElementById('baseResume').addEventListener('input', () => {
     updateAccordionMeta();
     persistLocalPrefsFromForm();
+    updateInputDirtyWarning();
   });
   document.getElementById('ollamaHost')?.addEventListener('input', persistLocalPrefsFromForm);
   document.getElementById('ollamaModel')?.addEventListener('change', persistLocalPrefsFromForm);
@@ -25373,9 +25463,10 @@ async function downloadDocx(type) {
   try {
     // docx library exposes itself as window.docx
     const lib = window.docx;
-    if (!lib) {
-      alert('The docx library has not loaded yet. Please make sure you have an internet connection and refresh the page.');
-      return;
+    const requiredDocxApis = ['Document', 'Packer', 'Paragraph', 'TextRun', 'AlignmentType', 'LevelFormat', 'BorderStyle', 'TabStopType'];
+    const missingDocxApis = requiredDocxApis.filter((name) => !lib || !lib[name]);
+    if (missingDocxApis.length || typeof lib?.Packer?.toBlob !== 'function') {
+      throw new Error('The docx library is not fully initialized yet. Refresh the page and try again before downloading.');
     }
 
     const { Document, Packer, Paragraph, TextRun, AlignmentType, LevelFormat,
@@ -25632,7 +25723,9 @@ async function downloadDocx(type) {
   a.href = url; a.download = filename; a.click();
   URL.revokeObjectURL(url);
   } catch(err) {
-    alert('Download failed: ' + (err && err.message ? err.message : String(err)) + '\n\nIf this keeps happening, open the browser console (F12) and share the error with support.');
+    console.error('DOCX download failed', err);
+    const message = err && err.message ? err.message : String(err);
+    alert('Download failed: ' + message + '\n\nIf this keeps happening, open the browser console (F12) and share the error with support.');
   }
 }
 </script>

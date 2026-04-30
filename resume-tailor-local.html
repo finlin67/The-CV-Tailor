@@ -23108,7 +23108,7 @@ const HELP_SECTIONS = {
       <div class="help-section">
         <div class="comms-list">
           <div class="comms-item"><div class="comms-meta">📄 <strong>Resume</strong> — tailored to the JD, ATS-optimized</div><div class="mini-badges"><span class="mini-badge">Copy</span><span class="mini-badge">Download</span></div></div>
-          <div class="comms-item"><div class="comms-meta">✉️ <strong>Cover Letter</strong> — company-specific hook, under 380 words</div><div class="mini-badges"><span class="mini-badge">Copy</span><span class="mini-badge">Download</span></div></div>
+          <div class="comms-item"><div class="comms-meta">✉️ <strong>Cover Letter</strong> — company-specific hook, under 250 words</div><div class="mini-badges"><span class="mini-badge">Copy</span><span class="mini-badge">Download</span></div></div>
           <div class="comms-item"><div class="comms-meta">🔗 <strong>Connection Note</strong> — 300 characters, LinkedIn-ready</div><div class="mini-badges"><span class="mini-badge">Copy</span></div></div>
           <div class="comms-item"><div class="comms-meta">📨 <strong>Recruiter Message</strong> — InMail-style, under 150 words</div><div class="mini-badges"><span class="mini-badge">Copy</span></div></div>
           <div class="comms-item"><div class="comms-meta">🔍 <strong>Who to Reach Out To</strong> — suggested titles to find the right contacts</div><div class="mini-badges"><span class="mini-badge">Search LinkedIn</span></div></div>
@@ -24429,7 +24429,7 @@ Do not include any keys that were not requested. Return ONLY the JSON object —
      Use the company's actual HQ city and state. Only append "(Remote from [Your City, State])" if the role was remote. If the role was on-site, list the HQ city and state with no remote qualifier.`);
   }
   if (selection.coverLetter) {
-    instructions.push(`${instructions.length + 1}. COVER LETTER (coverLetter): Write a compelling, authentic cover letter (max 380 words).
+    instructions.push(`${instructions.length + 1}. COVER LETTER (coverLetter): Write a compelling, authentic cover letter (250 words or less).
    - Open with a specific, genuine hook tied to ${company}'s mission or market position
    - Connect 2–3 of my strongest achievements directly to the role's key requirements
    - Show knowledge of the company's challenges or goals without being generic
